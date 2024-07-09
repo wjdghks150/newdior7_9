@@ -1,0 +1,2074 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dior renewal</title>
+  <link rel="shortcut icon" href="https://cdn.pixabay.com/photo/2020/09/13/19/10/letter-d-5569124_1280.png" type="image/x-icon">
+
+
+
+  <!-- swiper -->
+  <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
+  <!-- 리믹스 아이콘 -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.2.0/remixicon.css" />
+  <!-- 구글 폰트 -->
+  <link
+    href="https://fonts.googleapis.com/css2?family=Jacques+Francois+Shadow&family=Koulen&family=Libre+Bodoni:ital,wght@0,400..700;1,400..700&family=Libre+Caslon+Display&family=Macondo&family=Metal+Mania&family=Milonga&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+  <!-- preload -->
+  <div class="progress" id="progress">
+    <!-- 일렁이는 백그라운드 -->
+    <section class="last">
+      <canvas id="neuro"></canvas>
+      <script type="x-shader/x-fragment" id="vertShader">
+        precision mediump float;
+
+          varying vec2 vUv;
+          attribute vec2 a_position;
+
+          void main() {
+              vUv = .5 * (a_position + 1.);
+              gl_Position = vec4(a_position, 0.0, 1.0);
+          }
+        </script>
+
+      <script type="x-shader/x-fragment" id="fragShader">
+        precision mediump float;
+
+          varying vec2 vUv;
+          uniform float u_time;
+          uniform float u_ratio;
+          uniform vec2 u_pointer_position;
+          uniform float u_scroll_progress;
+
+          vec2 rotate(vec2 uv, float th) {
+              return mat2(cos(th), sin(th), -sin(th), cos(th)) * uv;
+          }
+
+          float neuro_shape(vec2 uv, float t, float p) {
+              vec2 sine_acc = vec2(0.);
+              vec2 res = vec2(0.);
+              float scale = 8.;
+
+              for (int j = 0; j < 15; j++) {
+                  uv = rotate(uv, 1.);
+                  sine_acc = rotate(sine_acc, 1.);
+                  vec2 layer = uv * scale + float(j) + sine_acc - t;
+                  sine_acc += sin(layer);
+                  res += (.5 + .5 * cos(layer)) / scale;
+                  scale *= (1.2 - .07 * p);
+              }
+              return res.x + res.y;
+          }
+
+          void main() {
+              vec2 uv = .5 * vUv;
+              uv.x *= u_ratio;
+
+              vec2 pointer = vUv - u_pointer_position;
+              pointer.x *= u_ratio;
+              float p = clamp(length(pointer), 0., 1.);
+              p = .5 * pow(1. - p, 2.);
+
+              float t = .001 * u_time;
+              vec3 color = vec3(0.);
+
+              float noise = neuro_shape(uv, t, p);
+
+              noise = 1.2 * pow(noise, 3.);
+              noise += pow(noise, 10.);
+              noise = max(.0, noise - .5);
+              noise *= (1. - length(vUv - .5));
+
+              color = normalize(vec3(.2, .5 + .4 * cos(3. * u_scroll_progress), .5 + .5 * sin(3. * u_scroll_progress)));
+
+              color = color * noise;
+
+              gl_FragColor = vec4(color, noise);
+          }
+        </script>
+    </section>
+    <!-- 일렁이는 백그라운드 -->
+
+    <!-- ⬇ 로딩 글자 ⬇-->
+    <!-- <div id="load">
+      <div>G</div>
+      <div>N</div>
+      <div>I</div>
+      <div>D</div>
+      <div>A</div>
+      <div>O</div>
+      <div>L</div>
+    </div> -->
+    <!--⬆ 로딩 글자 ⬆ -->
+
+    <!--⬇ 퍼센트 증가 ⬇-->
+    <span class="progress-bar"></span>
+    <span class="progress-text">0%</span>
+    <!--⬆ 퍼센트 증가 ⬆-->
+  </div>
+  <!-- end preload -->
+
+  <!-- main -->
+  <div id="main">
+    <!-- menuOpen -->
+    <div class="menuOpen">
+      <button class="open">
+        <img src="img/open-icon.png" alt="메뉴열기" />
+      </button>
+      <div class="menuWrap">
+        <a href="#" class="close">
+          <img src="img/close.png" width="50px" alt="닫기" />
+        </a>
+        <ul class="tit en animate" data-animate="motion">
+          <li>
+            <a
+              href="https://www.dior.com/ko_kr/fashion/%EB%82%A8%EC%84%B1-%ED%8C%A8%EC%85%98/%EB%A0%88%EB%94%94-%ED%88%AC-%EC%9B%A8%EC%96%B4/%EC%A0%84%EC%B2%B4-%EB%A0%88%EB%94%94-%ED%88%AC-%EC%9B%A8%EC%96%B4"><span><b>Man's</b></span></a>
+          </li>
+          <li>
+            <a
+              href="https://www.dior.com/ko_kr/fashion/%EC%97%AC%EC%84%B1-%ED%8C%A8%EC%85%98/%EC%97%AC%EC%84%B1-%EC%9D%98%EB%A5%98/%EC%A0%84%EC%B2%B4-%EB%A0%88%EB%94%94-%ED%88%AC-%EC%9B%A8%EC%96%B4"><span><b>Women's</b></span></a>
+          </li>
+          <li>
+            <a href="https://shop.dior.co.kr/collections/womens-fragrance-best-sellers"><span><b>Perfume</b></span></a>
+          </li>
+          <li>
+            <a href="https://shop.dior.co.kr/collections/make-up-best-sellers"><span><b>Make Up</b></span></a>
+          </li>
+          <li>
+            <a href="https://shop.dior.co.kr/collections/la-collection-privee-best-sellers"><span><b>Skin
+                  Care</b></span></a>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <!-- end menuOpen -->
+
+    <!-- header -->
+    <header id="header">
+      <h1>DIOR</h1>
+    </header>
+    <!-- end header -->
+
+    <section id="page0">
+      <section class="events-page">
+        <div id="section1" class="event">
+          <div class="pinWrapper">
+            <div class="text">
+              <h2>DIOR MAN 2024-2025 </h2>
+              <p class="p1">
+                Kim Jones, Creative Director of Dior Men, presents men's couture for the first time.</p>
+            </div>
+            <div class="image" id="loaderVideo">
+              <video id="videoplay"  loop muted playsinline> <!-- autoplay 빼기 -->
+                <source src="img/20240510145532_1280x720_3500_3e89c43d-8b25-48c1-aef5-ab269f9fd5fc.mp4"
+                  type="video/mp4">
+              </video>
+            </div>
+            <!-- Video -->
+          </div>
+          <div class="scrollBtn">
+            <h6>scroll</h6>
+            <span></span>
+          </div>
+        </div>
+        <!-- Section 01 -->
+        <div id="section2" class="event">
+          <div class="pinWrapper">
+            <div class="text">
+              <h2 class="h_2">DIOR WOMEN 2024-2025</h2>
+              <p class="p2">
+                The two collections share at their core the character of sophistication, excellence, ease and order.</p>
+            </div>
+            <div class="image"></div>
+          </div>
+        </div>
+        <!-- Section 02 -->
+        <div id="section3" class="event">
+          <div class="pinWrapper">
+            <div class="text">
+              <h2>DIOR FASHION</h2>
+              <p>Accessories represent simplicity, order, and glamor from both worlds, sometimes at the same time.</p>
+            </div>
+            <div class="image"></div>
+          </div>
+        </div>
+        <!-- Section 03 -->
+        <div id="section4" class="event">
+          <div class="pinWrapper">
+            <div class="text">
+              <h2 class="h_2">DIOR ROAD </h2>
+              <p class="p4">Discover the richness of the House of Dior through the works of Christian Dior and his six
+                successors.
+              </p>
+            </div>
+            <div class="image"></div>
+          </div>
+        </div>
+        <!-- Section 04 -->
+      </section>
+
+      <!-- Loader -->
+      <div id="preloader">
+        <div class="text-wrapper">
+          <h1 id="first-text">DIOR WORLD</h1>
+          <h3 id="second-text">own your dior</h3>
+        </div>
+      </div>
+
+
+    </section>
+
+    <!-- page1 -->
+
+    <div id="page1" class="page1">
+
+      <img src="img/디올-첫-화면.avif" alt="">
+
+
+      <h1>BOUTIQUE <br> <span>Your Own Bag</span>
+      </h1>
+
+    </div>
+    <!-- end page1 -->
+
+    <section id="page2">
+      <div class="section-header">
+        <h1>Collection</h1>
+
+        <p>
+          The Lady D-Sire bag demonstrates the ephemeral essence of the House of Dior more clearly than ever through its
+          outstanding craftsmanship.
+        </p>
+      </div>
+
+      <div class="section-images">
+        <div class="row">
+          <img src="img/2-img1.avif" alt="" />
+          <img src="img/2-img2.avif" alt="" />
+          <img src="img/2-img3.avif" alt="" />
+        </div>
+      </div>
+    </section>
+
+    <section id="page3">
+      <article>
+        <section class="sectionWrapper">
+          <section class="swiper">
+            <div class="parallax-bg" data-swiper-parallax="400" data-swiper-parallax-scale="1"></div>
+            <!-- end parallax-bg -->
+
+            <div class="swiper-wrapper">
+              <figure class="swiper-slide">
+                <div class="cardPopout" data-swiper-parallax="30" data-swiper-parallax-scale="0.9"
+                  data-swiper-parallax-opacity="0.8" data-swiper-parallax-duration="1000">
+                  <img src="img/디올1.avif" alt="jellyfish" width="800" height="400" data-swiper-parallax="80"
+                    data-swiper-parallax-duration="2000" />
+
+                  <h2 class="title" data-swiper-parallax="80" data-swiper-parallax-duration="1000">
+                    Jellyfish
+                  </h2>
+
+                  <h4 class="subtitle" data-swiper-parallax="80" data-swiper-parallax-duration="1500">
+                    Not Made of Jelly
+                  </h4>
+
+                  <figcaption data-swiper-parallax="80" data-swiper-parallax-duration="1250">
+                    <p>
+                      Jellyfish are fascinating marine creatures known for their
+                      graceful and mesmerizing movements in the water. Belonging
+                      to the phylum Cnidaria, these gelatinous animals come in
+                      various shapes, sizes, and colors. One distinctive feature
+                      of jellyfish is their umbrella-shaped bell, which pulsates
+                      to propel them through the ocean.
+                    </p>
+                  </figcaption>
+
+                  <a href="javascript:void(0);" title="Continue Reading" data-swiper-parallax="80"
+                    data-swiper-parallax-opacity="0.2" data-swiper-parallax-duration="1750">
+                    Continue Reading
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                      class="bi bi-arrow-right-short" viewBox="0 0 16 16">
+                      <path fill-rule="evenodd"
+                        d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8" />
+                    </svg>
+                  </a>
+                </div>
+                <!-- end cardPopout -->
+              </figure>
+              <!-- end swiper-slide -->
+
+              <figure class="swiper-slide">
+                <div class="cardPopout" data-swiper-parallax="30" data-swiper-parallax-scale="0.9"
+                  data-swiper-parallax-opacity="0.8" data-swiper-parallax-duration="1000">
+                  <img src="img/디올0.avif" alt="clownfish" width="800" height="400" data-swiper-parallax="80"
+                    data-swiper-parallax-duration="2000" />
+
+                  <h2 class="title" data-swiper-parallax="80" data-swiper-parallax-duration="1000">
+                    Clownfish
+                  </h2>
+
+                  <h4 class="subtitle" data-swiper-parallax="80" data-swiper-parallax-duration="1500">
+                    Clowning Around
+                  </h4>
+
+                  <figcaption data-swiper-parallax="80" data-swiper-parallax-duration="1250">
+                    <p>
+                      Clownfish, renowned for their vibrant colors and
+                      distinctive markings, are small saltwater fish belonging
+                      to the family Pomacentridae. Found in warm oceanic waters,
+                      particularly in the Indo-Pacific region, these fish have
+                      become widely recognized and popularized, in part, thanks
+                      to the animated film "Finding Nemo."
+                    </p>
+                  </figcaption>
+
+                  <a href="javascript:void(0);" title="Continue Reading" data-swiper-parallax="80"
+                    data-swiper-parallax-opacity="0.2" data-swiper-parallax-duration="1750">
+                    Continue Reading
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                      class="bi bi-arrow-right-short" viewBox="0 0 16 16">
+                      <path fill-rule="evenodd"
+                        d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8" />
+                    </svg>
+                  </a>
+                </div>
+              </figure>
+              <!-- end swiper-slide -->
+
+              <figure class="swiper-slide">
+                <div class="cardPopout" data-swiper-parallax="30" data-swiper-parallax-scale="0.9"
+                  data-swiper-parallax-opacity="0.8" data-swiper-parallax-duration="1000">
+                  <img src="img/디올3.avif" alt="blue tang" width="800" height="400" data-swiper-parallax="80"
+                    data-swiper-parallax-duration="2000" />
+
+                  <h2 class="title" data-swiper-parallax="80" data-swiper-parallax-duration="1000">
+                    Blue Tang
+                  </h2>
+
+                  <h4 class="subtitle" data-swiper-parallax="80" data-swiper-parallax-duration="1500">
+                    42 Wallaby Way, Sydney
+                  </h4>
+
+                  <figcaption data-swiper-parallax="80" data-swiper-parallax-duration="1250">
+                    <p>
+                      The blue tang, scientifically known as Paracanthurus
+                      hepatus, is a striking marine fish celebrated for its
+                      vivid blue coloration and unique body shape. Native to the
+                      Indo-Pacific region, blue tangs are commonly found in
+                      coral reefs, lagoons, and tropical coastal waters.
+                    </p>
+                  </figcaption>
+
+                  <a href="javascript:void(0);" title="Continue Reading" data-swiper-parallax="80"
+                    data-swiper-parallax-opacity="0.2" data-swiper-parallax-duration="1750">
+                    Continue Reading
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                      class="bi bi-arrow-right-short" viewBox="0 0 16 16">
+                      <path fill-rule="evenodd"
+                        d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8" />
+                    </svg>
+                  </a>
+                </div>
+              </figure>
+              <!-- end swiper-slide -->
+
+              <figure class="swiper-slide">
+                <div class="cardPopout" data-swiper-parallax="30" data-swiper-parallax-scale="0.9"
+                  data-swiper-parallax-opacity="0.8" data-swiper-parallax-duration="1000">
+                  <img src="img/디올4.avif" alt="Queen Angelfish" width="800" height="400" data-swiper-parallax="80"
+                    data-swiper-parallax-duration="2000" />
+
+                  <h2 class="title" data-swiper-parallax="80" data-swiper-parallax-duration="1000">
+                    Queen Angelfish
+                  </h2>
+
+                  <h4 class="subtitle" data-swiper-parallax="80" data-swiper-parallax-duration="1500">
+                    So Angelic!
+                  </h4>
+
+                  <figcaption data-swiper-parallax="80" data-swiper-parallax-duration="1250">
+                    <p>
+                      The queen angelfish (Holacanthus ciliaris) is a dazzling
+                      and vibrant species of angelfish that inhabits the warm
+                      coral reefs of the Western Atlantic, particularly in the
+                      Caribbean Sea and the Gulf of Mexico. Renowned for its
+                      striking and intricate coloration, the queen angelfish is
+                      a favorite among divers and underwater enthusiasts.
+                    </p>
+                  </figcaption>
+
+                  <a href="javascript:void(0);" title="Continue Reading" data-swiper-parallax="80"
+                    data-swiper-parallax-opacity="0.2" data-swiper-parallax-duration="1750">
+                    Continue Reading
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                      class="bi bi-arrow-right-short" viewBox="0 0 16 16">
+                      <path fill-rule="evenodd"
+                        d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8" />
+                    </svg>
+                  </a>
+                </div>
+              </figure>
+              <!-- end swiper-slide -->
+
+              <figure class="swiper-slide">
+                <div class="cardPopout" data-swiper-parallax="30" data-swiper-parallax-scale="0.9"
+                  data-swiper-parallax-opacity="0.8" data-swiper-parallax-duration="1000">
+                  <img src="img/디올5.avif" alt="Barracudas" width="800" height="400" data-swiper-parallax="80"
+                    data-swiper-parallax-duration="2000" />
+
+                  <h2 class="title" data-swiper-parallax="80" data-swiper-parallax-duration="1000">
+                    Barracuda
+                  </h2>
+
+                  <h4 class="subtitle" data-swiper-parallax="80" data-swiper-parallax-duration="1500">
+                    Burn, Burn, Burn
+                  </h4>
+
+                  <figcaption data-swiper-parallax="80" data-swiper-parallax-duration="1250">
+                    <p>
+                      Barracudas are formidable and predatory fish known for
+                      their sleek, elongated bodies and sharp teeth. Belonging
+                      to the genus Sphyraena, these species are found in
+                      tropical and subtropical waters around the world,
+                      including the Atlantic, Pacific, and Indian Oceans.
+                    </p>
+                  </figcaption>
+
+                  <a href="javascript:void(0);" title="Continue Reading" data-swiper-parallax="80"
+                    data-swiper-parallax-opacity="0.2" data-swiper-parallax-duration="1750">
+                    Continue Reading
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                      class="bi bi-arrow-right-short" viewBox="0 0 16 16">
+                      <path fill-rule="evenodd"
+                        d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8" />
+                    </svg>
+                  </a>
+                </div>
+              </figure>
+              <!-- end swiper-slide -->
+
+              <figure class="swiper-slide">
+                <div class="cardPopout" data-swiper-parallax="30" data-swiper-parallax-scale="0.9"
+                  data-swiper-parallax-opacity="0.8" data-swiper-parallax-duration="1000">
+                  <img src="img/디올6.avif" alt="Rainbowfish" width="800" height="400" data-swiper-parallax="80"
+                    data-swiper-parallax-duration="2000" />
+
+                  <h2 class="title" data-swiper-parallax="80" data-swiper-parallax-duration="1000">
+                    Rainbowfish
+                  </h2>
+
+                  <h4 class="subtitle" data-swiper-parallax="80" data-swiper-parallax-duration="1500">
+                    On The Spectrum
+                  </h4>
+
+                  <figcaption data-swiper-parallax="80" data-swiper-parallax-duration="1250">
+                    <p>
+                      Rainbowfish are a diverse and colorful group of freshwater
+                      fish known for their vibrant hues and iridescent scales.
+                      Belonging to the family Melanotaeniidae, these fish are
+                      native to the freshwater rivers and lakes of Australia,
+                      New Guinea, and parts of Southeast Asia. Rainbowfish are
+                      popular among aquarium enthusiasts for their striking
+                      appearance, active behavior, and relatively easy care.
+                    </p>
+                  </figcaption>
+
+                  <a href="javascript:void(0);" title="Continue Reading" data-swiper-parallax="80"
+                    data-swiper-parallax-opacity="0.2" data-swiper-parallax-duration="1750">
+                    Continue Reading
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                      class="bi bi-arrow-right-short" viewBox="0 0 16 16">
+                      <path fill-rule="evenodd"
+                        d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8" />
+                    </svg>
+                  </a>
+                </div>
+              </figure>
+              <!-- end swiper-slide -->
+
+              <figure class="swiper-slide">
+                <div class="cardPopout" data-swiper-parallax="30" data-swiper-parallax-scale="0.9"
+                  data-swiper-parallax-opacity="0.8" data-swiper-parallax-duration="1000">
+                  <img src="img/디올7.avif" alt="Piranha" width="800" height="400" data-swiper-parallax="80"
+                    data-swiper-parallax-duration="2000" />
+
+                  <h2 class="title" data-swiper-parallax="80" data-swiper-parallax-duration="1000">
+                    Piranha
+                  </h2>
+
+                  <h4 class="subtitle" data-swiper-parallax="80" data-swiper-parallax-duration="1500">
+                    A Friendly Little Fellow
+                  </h4>
+
+                  <figcaption data-swiper-parallax="80" data-swiper-parallax-duration="1250">
+                    <p>
+                      Piranhas are infamous freshwater fish known for their
+                      sharp teeth, predatory nature, and a reputation that often
+                      exceeds reality. Belonging to the family Characidae, these
+                      carnivorous fish are native to the rivers and tributaries
+                      of South America, particularly the Amazon Basin. Piranhas
+                      have become iconic in popular culture, often depicted as
+                      ferocious and aggressive predators.
+                    </p>
+                  </figcaption>
+
+                  <a href="javascript:void(0);" title="Continue Reading" data-swiper-parallax="80"
+                    data-swiper-parallax-opacity="0.2" data-swiper-parallax-duration="1750">
+                    Continue Reading
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                      class="bi bi-arrow-right-short" viewBox="0 0 16 16">
+                      <path fill-rule="evenodd"
+                        d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8" />
+                    </svg>
+                  </a>
+                </div>
+              </figure>
+              <!-- end swiper-slide -->
+
+              <figure class="swiper-slide">
+                <div class="cardPopout" data-swiper-parallax="30" data-swiper-parallax-scale="0.9"
+                  data-swiper-parallax-opacity="0.8" data-swiper-parallax-duration="1000">
+                  <img src="img/디올8.avif" alt="Unicornfish" width="800" height="400" data-swiper-parallax="80"
+                    data-swiper-parallax-duration="2000" />
+
+                  <h2 class="title" data-swiper-parallax="80" data-swiper-parallax-duration="1000">
+                    Unicornfish
+                  </h2>
+
+                  <h4 class="subtitle" data-swiper-parallax="80" data-swiper-parallax-duration="1500">
+                    Coral Reefs Thank Them
+                  </h4>
+
+                  <figcaption data-swiper-parallax="80" data-swiper-parallax-duration="1250">
+                    <p>
+                      Unicornfish, members of the Acanthuridae family, are a
+                      group of marine fish known for their distinctive horn-like
+                      rostral protuberance. Unicornfish play a crucial role in
+                      coral reef ecosystems as herbivores. Their diet primarily
+                      consists of algae, helping to regulate and control algae
+                      growth on coral reefs.
+                    </p>
+                  </figcaption>
+
+                  <a href="javascript:void(0);" title="Continue Reading" data-swiper-parallax="80"
+                    data-swiper-parallax-opacity="0.2" data-swiper-parallax-duration="1750">
+                    Continue Reading
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                      class="bi bi-arrow-right-short" viewBox="0 0 16 16">
+                      <path fill-rule="evenodd"
+                        d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8" />
+                    </svg>
+                  </a>
+                </div>
+              </figure>
+              <!-- end swiper-slide -->
+
+              <figure class="swiper-slide">
+                <div class="cardPopout" data-swiper-parallax="30" data-swiper-parallax-scale="0.9"
+                  data-swiper-parallax-opacity="0.8" data-swiper-parallax-duration="1000">
+                  <img src="img/디올10.avif" alt="Ocean Sunfish" width="800" height="400" data-swiper-parallax="80"
+                    data-swiper-parallax-duration="2000" />
+
+                  <h2 class="title" data-swiper-parallax="80" data-swiper-parallax-duration="1000">
+                    Ocean Sunfish
+                  </h2>
+
+                  <h4 class="subtitle" data-swiper-parallax="80" data-swiper-parallax-duration="1500">
+                    Oh Lawd He Comin'
+                  </h4>
+
+                  <figcaption data-swiper-parallax="80" data-swiper-parallax-duration="1250">
+                    <p>
+                      The ocean sunfish, scientifically known as Mola mola, is
+                      an extraordinary and unique marine creature that holds the
+                      title for being the heaviest bony fish in the world.
+                      Residing in both temperate and tropical oceans globally,
+                      the ocean sunfish is renowned for its peculiar appearance,
+                      massive size, and intriguing behavior.
+                    </p>
+                  </figcaption>
+
+                  <a href="javascript:void(0);" title="Continue Reading" data-swiper-parallax="80"
+                    data-swiper-parallax-opacity="0.2" data-swiper-parallax-duration="1750">
+                    Continue Reading
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                      class="bi bi-arrow-right-short" viewBox="0 0 16 16">
+                      <path fill-rule="evenodd"
+                        d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8" />
+                    </svg>
+                  </a>
+                </div>
+              </figure>
+              <!-- end swiper-slide -->
+
+              <figure class="swiper-slide">
+                <div class="cardPopout" data-swiper-parallax="30" data-swiper-parallax-scale="0.9"
+                  data-swiper-parallax-opacity="0.8" data-swiper-parallax-duration="1000">
+                  <img src="img/디올11.avif" alt="giant gourami" width="400" height="200" data-swiper-parallax="80"
+                    data-swiper-parallax-duration="2000" />
+
+                  <h2 class="title" data-swiper-parallax="80" data-swiper-parallax-duration="1000">
+                    Giant Gourami
+                  </h2>
+
+                  <h4 class="subtitle" data-swiper-parallax="80" data-swiper-parallax-duration="1500">
+                    What Type of Dog Is This?
+                  </h4>
+
+                  <figcaption data-swiper-parallax="80" data-swiper-parallax-duration="1250">
+                    <p>
+                      The giant gourami (Osphronemus goramy) is a large and
+                      impressive freshwater fish that hails from Southeast Asia.
+                      As a member of the labyrinth fish family (Osphronemidae),
+                      giant gouramis possess a labyrinth organ that enables them
+                      to extract oxygen directly from the air, allowing them to
+                      survive in oxygen-deprived waters.
+                    </p>
+                  </figcaption>
+
+                  <a href="javascript:void(0);" title="Continue Reading" data-swiper-parallax="80"
+                    data-swiper-parallax-opacity="0.2" data-swiper-parallax-duration="1750">
+                    Continue Reading
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                      class="bi bi-arrow-right-short" viewBox="0 0 16 16">
+                      <path fill-rule="evenodd"
+                        d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8" />
+                    </svg>
+                  </a>
+                </div>
+              </figure>
+              <!-- end swiper-slide -->
+            </div>
+            <!-- end swiper-wrapper -->
+
+            <div class="swiper-scrollbar"></div>
+
+          </section>
+          <!-- end swiper -->
+
+        </section>
+        <!-- end sectionWrapper -->
+
+      </article>
+      <!-- end article -->
+      <svg class="scroll-icon" fill="none" height="143" viewBox="0 0 127 143" width="127"
+        xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+        <clipPath id="a">
+          <path d="m.054199.543213h126.017v141.769h-126.017z" />
+        </clipPath>
+        <g clip-path="url(#a)" fill="#ffffff">
+          <path
+            d="m125.572 75.5233c-.145-3.2128-1.099-6.417-2.022-9.517l-.112-.3766c-.447-1.5133-1.234-2.9043-2.301-4.0665-1.068-1.1622-2.387-2.0648-3.857-2.6387-4.556-1.9171-8.833-1.2956-12.721 1.8456-1.793-4.0922-4.722-6.7085-8.7125-7.7783-4.6777-1.2536-8.4786-.2546-11.3054 2.972-4.7946-6.5831-8.3395-7.2736-15.9188-3.0848-.0841-1.2532-.1648-2.5003-.2409-3.7412-.1969-3.1078-.3938-6.3218-.7075-9.4604-.6183-6.2353-1.3226-12.9299-2.2793-19.7125-.5533-3.6251-2.0078-7.0536-4.2296-9.97108-2.6253-3.55734-6.2521-4.3397-10.221-2.20464-1.1919.61709-2.2406 1.47794-3.0782 2.52672-.8375 1.0488-1.4453 2.262-1.7834 3.5608-.5069 1.7486-.8167 3.5482-.924 5.3656-.0551 1.184-.1121 2.3678-.1708 3.5514-.2862 5.8933-.5827 11.9868-.5775 17.9837.0053 7.2906.174 14.4348.3526 21.9991.0695 2.9365.135 5.8966.1967 8.8797-.0479-.0434-.0944-.0854-.1397-.1274-.3479-.3275-.7123-.6366-1.0916-.9267-6.799-4.9883-14.0305-6.7229-21.495-5.1588-1.5427.2955-2.9886.9668-4.2102 1.9539-1.2215.9878-2.181 2.2604-2.7935 3.707-.6208 1.5109-.8599 3.1517-.6961 4.7775.1638 1.6251.7253 3.1852 1.6351 4.5425 1.1614 1.6874 2.5534 3.2049 4.1351 4.5071 5.1842 4.4178 9.4621 9.7997 12.597 15.8467 3.8218 7.416 8.1388 15.227 13.9933 25.312 1.3937 2.215 3.1752 4.162 5.2597 5.746 4.1808 3.291 8.8746 5.873 13.8933 7.642 4.6291 1.741 9.5346 2.632 14.4808 2.631 5.8223-.068 11.5883-1.147 17.0411-3.188 4.0383-1.51 7.7793-3.719 11.0513-6.525 5.927-4.905 10.057-11.609 12.627-20.495 3.423-11.807 4.884-24.097 4.325-36.3777zm-74.4287 4.1428c-.1312-7.8301-.3051-16.0981-.5073-24.5733-.0413-1.7439-.1186-3.5154-.1967-5.2284-.1359-3.138-.2777-6.3829-.2048-9.5642.1569-6.8515.5591-13.8146.9483-20.5486l.1137-1.9638c.1536-2.6798.7554-5.2605 4.064-6.033 2.116 1.3842 3.4261 3.663 4.0037 6.9572.8682 4.9532 1.4791 9.9481 1.8309 14.9645.4549 6.5515.797 13.2232 1.1284 19.6743.169 3.2975.3438 6.5947.525 9.8917.1148 2.0557.9511 3.243 2.5545 3.6309 1.6191.3938 2.9534-.4712 3.9622-2.5676l.4523-.9444c.9352-1.9553 1.9033-3.9775 3.0014-5.8717.6629-1.1433 1.8633-2.4232 3.8396-2.0274.8289.1585 1.5844.5812 2.1527 1.2049.5684.6236.9196 1.4147 1.001 2.2546.3327 2.0754.4975 4.1741.4942 6.2759.0105 2.8735.3846 4.2814 2.479 4.5105 2.0537.2231 2.7651-.9846 3.5757-3.7839.5605-2.1355 1.3429-4.2065 2.3339-6.1794 1.2687-2.3523 2.779-2.8781 5.5743-1.9375 2.7566.928 4.4067 2.7612 4.893 5.4476.2481 1.5745.3945 3.1629.4391 4.7565.0197.4076.042.8145.0656 1.2202.0873 1.5364.44 3.1793 2.396 3.7161 1.955.5369 3.019-.6852 3.872-2.0871.246-.4037.486-.8126.727-1.2221.683-1.2385 1.467-2.418 2.344-3.5272 1.384-1.65 2.972-2.4547 4.469-2.2657s2.835 1.3638 3.766 3.3073c2.363 4.9278 3.221 10.6235 2.555 16.9296-.672 6.3744-1.649 13.1379-3.073 21.2844-1.124 5.935-3.584 11.537-7.194 16.38-3.518 4.879-8.683 8.32-15.7926 10.518-12.9601 4.004-25.0682 1.854-37.0174-6.579-1.2633-.862-2.3666-1.938-3.2605-3.179-1.9835-2.84-3.8104-5.787-5.4722-8.827-2.7146-5.06-5.3719-10.304-7.8975-15.5905-4.0036-8.3722-9.118-14.9645-15.6393-20.1496-1.1053-.8827-2.0364-1.9637-2.7456-3.1878-.1994-.3111-.3299-.6609-.3832-1.0265-.0534-.3656-.0279-.7377.0743-1.0928.1593-.4023.4009-.7666.7092-1.0705.3084-.3032.6767-.5388 1.0814-.6918 1.2858-.5769 2.6801-.8729 4.0895-.8677.7658.0027 1.5296.0788 2.2809.2271 6.1039 1.1729 9.9551 3.4051 12.4919 7.2375.7403 1.2582 1.3072 2.6102 1.6854 4.02.1214.382.2437.7634.3711 1.1388.5001 1.4708 1.2804 2.9758 3.2711 2.9896h.0289c1.6887 0 2.9147-1.0501 3.3656-2.8839.2558-1.0016.3818-2.0321.3753-3.0658z" />
+          <path
+            d="m16.6711 5.9344c.5093-.5907 1.862-2.1659.2881-3.72535-.9753-.96679-2.246-.87427-3.4878.25922-3.9833 3.63677-8.20739 7.52427-12.21499 11.55153-.80401.8073-1.356774 2.924-.787729 3.7562 3.076259 4.4999 6.432069 9.0293 9.982819 13.4622.2458.2919.5537.5254.9009.6835.3473.1582.7254.2369 1.1069.2308h.025c.4078.0016.8104-.0898 1.1774-.2674.3671-.1775.6889-.4365.9406-.7572.3478-.5312.5817-1.1288.6868-1.755.1052-.6262.0795-1.2673-.0756-1.8831-.386-1.0719-.9821-2.0564-1.7527-2.8957-.1542-.1936-.3077-.3859-.4547-.5776-1.0416-1.3573-2.1108-2.6752-3.24228-4.0693-.37805-.4655-.76135-.9386-1.1499-1.419l.15608-.0538c.17163-.0771.35494-.1252.54226-.1424 2.90054.0144 5.80084.0332 8.70094.0564 4.4999.0328 9 .0656 13.4992.0735h.3326c2.474.0562 4.9491-.0394 7.4114-.2861.8269-.0625 1.6019-.4275 2.1766-1.0252.5749-.5978.9091-1.3864.9391-2.2152.0547-.8324-.2193-1.6531-.7631-2.2857-.5438-.6327-1.3141-1.0268-2.1452-1.0977-2.4406-.3186-4.9031-.434-7.3627-.3452-4.9803.1936-10.042.4699-14.9317.7364-1.892.1037-3.784.2057-5.676.3058l-.1714-.2783c.4782-.5368.9577-1.0727 1.4386-1.6073 1.291-1.44529 2.6267-2.93518 3.9105-4.429z" />
+          <path
+            d="m94.4578 10.3189c-1.9309.0564-3.8618.1068-5.7921.151-3.6171.0893-7.3582.1805-11.0364.3327-1.5995.0292-3.1806.3465-4.6678.9366-.8086.3459-1.4112 1.7885-1.3718 2.752.0341.8297 1.3035 1.652 2.0045 1.8798.8079.2105 1.6454.2845 2.4783.2186.2107-.0053.4207-.0099.6275-.0099 3.2908 0 6.5811-.0025 9.8713-.0078 3.556-.0049 7.1134-.0073 10.6701-.0073.525 0 1.0705.0473 1.757.1057.1969.017.4095.0354.6366.0538-.3038.3387-.5907.6564-.869.9655-.8709.9655-1.6237 1.7997-2.3332 2.6739-.1681.2061-.3387.4122-.51.6183-.8953.9818-1.6527 2.0813-2.2506 3.2679-.4109.9248-.3649 2.6378.3085 3.3775.6064.6662 1.8377.7016 2.9233.7331l.3341.0099h.042c.6478-.0739 1.2438-.3913 1.6671-.8881.722-.8029 1.4468-1.6038 2.1748-2.4028 2.691-2.9673 5.476-6.0383 8.04-9.1998 1.456-1.7958 1.292-3.6349-.474-5.3164-3.334-3.17737-6.795-6.27197-10.2856-9.19793-.6996-.586108-2.286-.56511-3.0953-.13652-.7055.37411-.9812 1.94867-.7803 2.73824.3393 1.11421.9247 2.13794 1.713 2.99554.7128.79971 1.4748 1.55417 2.2814 2.25908.2842.26253.5907.53951.915.84409-.529.0288-1.02.0571-1.482.084-1.3455.0761-2.4088.1378-3.4964.1693z" />
+        </g>
+      </svg>
+    </section>
+    <!-- end page3 -->
+
+    <section id="page4">
+      <div class="header__marq-wrapp">
+        <span class="header__marq-txt">Dior do the best
+          <span class="header__marq-star">
+            <img src="img/star.svg" alt="" />
+          </span>
+        </span>
+        <span class="header__marq-txt">Dior do the best
+          <span class="header__marq-star">
+            <img src="img/star.svg" alt="" />
+          </span>
+        </span>
+        <span class="header__marq-txt">Dior do the best
+          <span class="header__marq-star">
+            <img src="img/star.svg" alt="" />
+          </span>
+        </span>
+        <span class="header__marq-txt">Dior do the best
+          <span class="header__marq-star">
+            <img src="img/star.svg" alt="" />
+          </span>
+        </span>
+        <span class="header__marq-txt">Dior do the best
+          <span class="header__marq-star">
+            <img src="img/star.svg" alt="" />
+          </span>
+        </span>
+        <span class="header__marq-txt">Dior do the best
+          <span class="header__marq-star">
+            <img src="img/star.svg" alt="" />
+          </span>
+        </span>
+        <span class="header__marq-txt">Dior do the best
+          <span class="header__marq-star">
+            <img src="img/star.svg" alt="" />
+          </span>
+        </span>
+      </div>
+
+      <section class="about">
+        <div class="about__wrapp">
+          <div class="about__img">
+            <img src="https://img.marieclairekorea.com/2021/01/mck_60000a1401898.jpg" alt="2">
+          </div>
+          <div class="about__txt">
+            <h2 class="section-title">abo<span class="stroke">ut</span>
+              <span class="section-title__square">
+                <img
+                  src="https://dimdose.com/web/upload/category/logo/v2_bc7d47cda74f3cc968e660e9959ee200_4XWA9rd0ZS_top.jpg"
+                  alt="">
+              </span>
+            </h2>
+            <p class="about__p">Designed by Maria Grazia Chiuri,
+              this bag is a must-have accessory for every collection,
+              combining her unique vision with the heritage of the founding
+              couturier. Celebrating the creative passion and exceptional
+              savoir-faire of the Dior atelier,
+              the House's leather goods line has been enriched
+              with unprecedented items.</p>
+          </div>
+        </div>
+      </section> <!-- //about -->
+
+      <section class="about">
+        <div class="about__wrapp">
+
+          <div class="about__txt">
+            <h2 class="section-title">abo<span class="stroke">ut</span>
+              <span class="section-title__square">
+                <img
+                  src="https://dimdose.com/web/upload/category/logo/v2_bc7d47cda74f3cc968e660e9959ee200_4XWA9rd0ZS_top.jpg"
+                  alt="">
+              </span>
+            </h2>
+            <p class="about__p">“Just like with your clothes,
+              you need to pay attention to your bag.”
+              Christian Dior gave this advice
+              in his fashion dictionary: Dior bags,
+              which reflect the house's outstanding
+              know-how and originality,
+              continue to inherit the designer's
+              vision of elegance and add the final touch to a look,
+              creating a perfect silhouette.</p>
+          </div>
+          <div class="about__img">
+            <img src="https://i.pinimg.com/originals/38/03/4b/38034b83283b81156d19e781a8613253.jpg" alt="2">
+          </div>
+        </div>
+      </section> <!-- //about -->
+    </section>
+     <!-- end page4 -->
+
+    <section id="page5" class="line">
+      <div class="header__marq-wrapp">
+        <span class="header__marq-txt">Dior do the best
+          <span class="header__marq-star">
+            <img src="img/star.svg" alt="" />
+          </span>
+        </span>
+        <span class="header__marq-txt">Dior do the best
+          <span class="header__marq-star">
+            <img src="img/star.svg" alt="" />
+          </span>
+        </span>
+        <span class="header__marq-txt">Dior do the best
+          <span class="header__marq-star">
+            <img src="img/star.svg" alt="" />
+          </span>
+        </span>
+        <span class="header__marq-txt">Dior do the best
+          <span class="header__marq-star">
+            <img src="img/star.svg" alt="" />
+          </span>
+        </span>
+        <span class="header__marq-txt">Dior do the best
+          <span class="header__marq-star">
+            <img src="img/star.svg" alt="" />
+          </span>
+        </span>
+        <span class="header__marq-txt">Dior do the best
+          <span class="header__marq-star">
+            <img src="img/star.svg" alt="" />
+          </span>
+        </span>
+        <span class="header__marq-txt">Dior do the best
+          <span class="header__marq-star">
+            <img src="img/star.svg" alt="" />
+          </span>
+        </span>
+      </div>
+      <div class="ball"></div>
+      <!--// 커서 애니메이션 -->
+
+      <div class="video-container">
+        <video src="img/20221206173206_1280x720_3500_336c310a-4746-4397-99f3-fcd002c587de.mp4" autoplay muted
+          loop></video>
+      </div>
+
+      <div class="anime-list">
+        <div class="rotatingHeader">
+          <h1 data-splitting>Introduce Dior Boutique</h1>
+        </div>
+
+        <ul>
+          <li>
+            <div class="index"><span>01</span></div>
+            <div class="release-year">
+              <span>M933</span>
+            </div>
+            <div class="anime-name">
+              <h2 data-value="Dior Book Tote">Dior Book Tote</h2>
+            </div>
+            <div class="genere">
+              <span>White & Black Paris Embroidery</span>
+            </div>
+            <div class="redirect-link">
+              <a href="https://www.dior.com/ko_kr/fashion/products/M1296ZEGG_M933-dior-book-tote-%EB%AF%B8%EB%94%94%EC%97%84-%EB%B0%B1-%ED%99%94%EC%9D%B4%ED%8A%B8-%EB%B8%94%EB%9E%99-paris-%EC%9E%90%EC%88%98-36-x-27.5-x-16.5cm"
+                target="_blank">
+                <svg width="1.25rem" height="1.25rem" viewBox="0 0 16 16" fill="none" name="iconArrow"
+                  xmlns="http://www.w3.org/2000/svg">
+                  <path
+                    d="M12.75 4C12.75 3.58579 12.4142 3.25 12 3.25C11.5858 3.25 11.25 3.58579 11.25 4H12.75ZM11.25 10C11.25 10.4142 11.5858 10.75 12 10.75C12.4142 10.75 12.75 10.4142 12.75 10H11.25ZM11.25 4V10H12.75V4H11.25Z"
+                    fill="currentColor"></path>
+                  <path
+                    d="M12 4.75C12.4142 4.75 12.75 4.41421 12.75 4C12.75 3.58579 12.4142 3.25 12 3.25L12 4.75ZM6 3.25C5.58579 3.25 5.25 3.58579 5.25 4C5.25 4.41421 5.58579 4.75 6 4.75L6 3.25ZM12 3.25L6 3.25L6 4.75L12 4.75L12 3.25Z"
+                    fill="currentColor"></path>
+                  <path
+                    d="M12.5303 4.53033C12.8232 4.23744 12.8232 3.76256 12.5303 3.46967C12.2374 3.17678 11.7626 3.17678 11.4697 3.46967L12.5303 4.53033ZM3.46967 11.4697C3.17678 11.7626 3.17678 12.2374 3.46967 12.5303C3.76256 12.8232 4.23744 12.8232 4.53033 12.5303L3.46967 11.4697ZM11.4697 3.46967L3.46967 11.4697L4.53033 12.5303L12.5303 4.53033L11.4697 3.46967Z"
+                    fill="currentColor"></path>
+                </svg>
+              </a>
+            </div>
+            <div class="hover-img">
+              <img
+                src="https://www.dior.com/couture/ecommerce/media/catalog/product/e/e/1713537918_M1296ZEGG_M933_E12_GHC.jpg?imwidth=870"
+                alt="anime-img" class="img-fluid">
+            </div>
+          </li>
+          <li>
+            <div class="index">
+              <span>02</span>
+            </div>
+            <div class="release-year">
+              <span>M900</span>
+            </div>
+            <div class="anime-name">
+              <h2 data-value="black supple bag">black supple bag</h2>
+            </div>
+            <div class="genere">
+              <span>Black Supple Maxicanage Calfskin</span>
+            </div>
+            <div class="redirect-link">
+              <a href="https://www.dior.com/ko_kr/fashion/products/M3350UHOW_M900-dior-%EC%8A%A4%EB%AA%B0-%EB%B0%B1%ED%8C%A9-%EB%B8%94%EB%9E%99-%EC%84%9C%ED%94%8C-%EB%A7%A5%EC%8B%9C%EA%B9%8C%EB%82%98%EC%A5%AC-%EC%86%A1%EC%95%84%EC%A7%80-%EA%B0%80%EC%A3%BD"
+                target="_blank">
+                <svg width="1.25rem" height="1.25rem" viewBox="0 0 16 16" fill="none" name="iconArrow"
+                  xmlns="http://www.w3.org/2000/svg">
+                  <path
+                    d="M12.75 4C12.75 3.58579 12.4142 3.25 12 3.25C11.5858 3.25 11.25 3.58579 11.25 4H12.75ZM11.25 10C11.25 10.4142 11.5858 10.75 12 10.75C12.4142 10.75 12.75 10.4142 12.75 10H11.25ZM11.25 4V10H12.75V4H11.25Z"
+                    fill="currentColor"></path>
+                  <path
+                    d="M12 4.75C12.4142 4.75 12.75 4.41421 12.75 4C12.75 3.58579 12.4142 3.25 12 3.25L12 4.75ZM6 3.25C5.58579 3.25 5.25 3.58579 5.25 4C5.25 4.41421 5.58579 4.75 6 4.75L6 3.25ZM12 3.25L6 3.25L6 4.75L12 4.75L12 3.25Z"
+                    fill="currentColor"></path>
+                  <path
+                    d="M12.5303 4.53033C12.8232 4.23744 12.8232 3.76256 12.5303 3.46967C12.2374 3.17678 11.7626 3.17678 11.4697 3.46967L12.5303 4.53033ZM3.46967 11.4697C3.17678 11.7626 3.17678 12.2374 3.46967 12.5303C3.76256 12.8232 4.23744 12.8232 4.53033 12.5303L3.46967 11.4697ZM11.4697 3.46967L3.46967 11.4697L4.53033 12.5303L12.5303 4.53033L11.4697 3.46967Z"
+                    fill="currentColor"></path>
+                </svg>
+              </a>
+            </div>
+            <div class="hover-img">
+              <img
+                src="https://www.dior.com/couture/ecommerce/media/catalog/product/6/g/1707216321_M3350UHOW_M900_E12_GHC.jpg?imwidth=870"
+                class="img-fluid">
+            </div>
+          </li>
+          <li>
+            <div class="index">
+              <span>03</span>
+            </div>
+            <div class="release-year">
+              <span>M928</span>
+            </div>
+            <div class="anime-name">
+              <h2 data-value="Blue Dior Oblique Jacquard">Blue Dior Oblique Jacquard</h2>
+            </div>
+            <div class="genere">
+              <span>made in italy</span>
+            </div>
+            <div class="redirect-link">
+              <a href="https://www.dior.com/ko_kr/fashion/products/M3350UTZQ_M928-dior-dior-oblique" target="_blank">
+                <svg width="1.25rem" height="1.25rem" viewBox="0 0 16 16" fill="none" name="iconArrow"
+                  xmlns="http://www.w3.org/2000/svg">
+                  <path
+                    d="M12.75 4C12.75 3.58579 12.4142 3.25 12 3.25C11.5858 3.25 11.25 3.58579 11.25 4H12.75ZM11.25 10C11.25 10.4142 11.5858 10.75 12 10.75C12.4142 10.75 12.75 10.4142 12.75 10H11.25ZM11.25 4V10H12.75V4H11.25Z"
+                    fill="currentColor"></path>
+                  <path
+                    d="M12 4.75C12.4142 4.75 12.75 4.41421 12.75 4C12.75 3.58579 12.4142 3.25 12 3.25L12 4.75ZM6 3.25C5.58579 3.25 5.25 3.58579 5.25 4C5.25 4.41421 5.58579 4.75 6 4.75L6 3.25ZM12 3.25L6 3.25L6 4.75L12 4.75L12 3.25Z"
+                    fill="currentColor"></path>
+                  <path
+                    d="M12.5303 4.53033C12.8232 4.23744 12.8232 3.76256 12.5303 3.46967C12.2374 3.17678 11.7626 3.17678 11.4697 3.46967L12.5303 4.53033ZM3.46967 11.4697C3.17678 11.7626 3.17678 12.2374 3.46967 12.5303C3.76256 12.8232 4.23744 12.8232 4.53033 12.5303L3.46967 11.4697ZM11.4697 3.46967L3.46967 11.4697L4.53033 12.5303L12.5303 4.53033L11.4697 3.46967Z"
+                    fill="currentColor"></path>
+                </svg>
+              </a>
+            </div>
+            <div class="hover-img">
+              <img
+                src="https://www.dior.com/couture/ecommerce/media/catalog/product/i/m/1707216321_M3350UTZQ_M928_E12_GHC.jpg?imwidth=870"
+                alt="anime-img" class="img-fluid">
+            </div>
+          </li>
+          <li>
+            <div class="index">
+              <span>04</span>
+            </div>
+            <div class="release-year">
+              <span>M900</span>
+            </div>
+            <div class="anime-name">
+              <h2 data-value="Lady D-Sire My ABCDior">Lady D-Sire My ABCDior</h2>
+            </div>
+            <div class="genere">
+              <span>black cowhide</span>
+            </div>
+            <div class="redirect-link">
+              <a href="https://www.dior.com/ko_kr/fashion/products/M1151OTRL_M900-lady-d-sire-my-abcdior-%EB%AF%B8%EB%94%94%EC%97%84-%EB%B0%B1-%EB%B8%94%EB%9E%99-%EC%86%8C%EA%B0%80%EC%A3%BD"
+                target="_blank">
+                <svg width="1.25rem" height="1.25rem" viewBox="0 0 16 16" fill="none" name="iconArrow"
+                  xmlns="http://www.w3.org/2000/svg">
+                  <path
+                    d="M12.75 4C12.75 3.58579 12.4142 3.25 12 3.25C11.5858 3.25 11.25 3.58579 11.25 4H12.75ZM11.25 10C11.25 10.4142 11.5858 10.75 12 10.75C12.4142 10.75 12.75 10.4142 12.75 10H11.25ZM11.25 4V10H12.75V4H11.25Z"
+                    fill="currentColor"></path>
+                  <path
+                    d="M12 4.75C12.4142 4.75 12.75 4.41421 12.75 4C12.75 3.58579 12.4142 3.25 12 3.25L12 4.75ZM6 3.25C5.58579 3.25 5.25 3.58579 5.25 4C5.25 4.41421 5.58579 4.75 6 4.75L6 3.25ZM12 3.25L6 3.25L6 4.75L12 4.75L12 3.25Z"
+                    fill="currentColor"></path>
+                  <path
+                    d="M12.5303 4.53033C12.8232 4.23744 12.8232 3.76256 12.5303 3.46967C12.2374 3.17678 11.7626 3.17678 11.4697 3.46967L12.5303 4.53033ZM3.46967 11.4697C3.17678 11.7626 3.17678 12.2374 3.46967 12.5303C3.76256 12.8232 4.23744 12.8232 4.53033 12.5303L3.46967 11.4697ZM11.4697 3.46967L3.46967 11.4697L4.53033 12.5303L12.5303 4.53033L11.4697 3.46967Z"
+                    fill="currentColor"></path>
+                </svg>
+              </a>
+            </div>
+            <div class="hover-img">
+              <img
+                src="https://www.dior.com/couture/ecommerce/media/catalog/product/D/N/1710175517_M1151OTRL_M900_E12_GHC.jpg?imwidth=870"
+                alt="anime-img" class="img-fluid">
+            </div>
+          </li>
+          <li>
+            <div class="index">
+              <span>05</span>
+            </div>
+            <div class="release-year">
+              <span>M911</span>
+            </div>
+            <div class="anime-name">
+              <h2 data-value="Lady D-Lite ">Lady D-Lite </h2>
+            </div>
+            <div class="genere">
+              <span>Black multi-color Dior</span>
+            </div>
+            <div class="redirect-link">
+              <a href="https://www.dior.com/ko_kr/fashion/products/M0565OEGM_M911-lady-d-lite-dior-herbarium"
+                target="_blank">
+                <svg width="1.25rem" height="1.25rem" viewBox="0 0 16 16" fill="none" name="iconArrow"
+                  xmlns="http://www.w3.org/2000/svg">
+                  <path
+                    d="M12.75 4C12.75 3.58579 12.4142 3.25 12 3.25C11.5858 3.25 11.25 3.58579 11.25 4H12.75ZM11.25 10C11.25 10.4142 11.5858 10.75 12 10.75C12.4142 10.75 12.75 10.4142 12.75 10H11.25ZM11.25 4V10H12.75V4H11.25Z"
+                    fill="currentColor"></path>
+                  <path
+                    d="M12 4.75C12.4142 4.75 12.75 4.41421 12.75 4C12.75 3.58579 12.4142 3.25 12 3.25L12 4.75ZM6 3.25C5.58579 3.25 5.25 3.58579 5.25 4C5.25 4.41421 5.58579 4.75 6 4.75L6 3.25ZM12 3.25L6 3.25L6 4.75L12 4.75L12 3.25Z"
+                    fill="currentColor"></path>
+                  <path
+                    d="M12.5303 4.53033C12.8232 4.23744 12.8232 3.76256 12.5303 3.46967C12.2374 3.17678 11.7626 3.17678 11.4697 3.46967L12.5303 4.53033ZM3.46967 11.4697C3.17678 11.7626 3.17678 12.2374 3.46967 12.5303C3.76256 12.8232 4.23744 12.8232 4.53033 12.5303L3.46967 11.4697ZM11.4697 3.46967L3.46967 11.4697L4.53033 12.5303L12.5303 4.53033L11.4697 3.46967Z"
+                    fill="currentColor"></path>
+                </svg>
+              </a>
+            </div>
+            <div class="hover-img">
+              <img
+                src="https://www.dior.com/couture/ecommerce/media/catalog/product/5/p/1713537919_M0565OEGM_M911_E12_GHC.jpg?imwidth=870"
+                alt="anime-img" class="img-fluid">
+            </div>
+          </li>
+          <li>
+            <div class="index">
+              <span>06</span>
+            </div>
+            <div class="release-year">
+              <span>M933</span>
+            </div>
+            <div class="anime-name">
+              <h2 data-value="White Toile de Jouy Soleil Macrame">White Toile de Jouy Soleil Macrame</h2>
+            </div>
+            <div class="genere">
+              <span>Maria Grazia Chiuri</span>
+            </div>
+            <div class="redirect-link">
+              <a href="https://www.dior.com/ko_kr/fashion/products/M1296ZECY_M933-dior-book-tote-%EB%AF%B8%EB%94%94%EC%97%84-%EB%B0%B1-%ED%99%94%EC%9D%B4%ED%8A%B8-toile-de-jouy-soleil-%EB%A7%88%ED%81%AC%EB%9D%BC%EB%A9%94-%EC%9E%90%EC%88%98-36-x-27.5-x-16.5cm"
+                target="_blank">
+                <svg width="1.25rem" height="1.25rem" viewBox="0 0 16 16" fill="none" name="iconArrow"
+                  xmlns="http://www.w3.org/2000/svg">
+                  <path
+                    d="M12.75 4C12.75 3.58579 12.4142 3.25 12 3.25C11.5858 3.25 11.25 3.58579 11.25 4H12.75ZM11.25 10C11.25 10.4142 11.5858 10.75 12 10.75C12.4142 10.75 12.75 10.4142 12.75 10H11.25ZM11.25 4V10H12.75V4H11.25Z"
+                    fill="currentColor"></path>
+                  <path
+                    d="M12 4.75C12.4142 4.75 12.75 4.41421 12.75 4C12.75 3.58579 12.4142 3.25 12 3.25L12 4.75ZM6 3.25C5.58579 3.25 5.25 3.58579 5.25 4C5.25 4.41421 5.58579 4.75 6 4.75L6 3.25ZM12 3.25L6 3.25L6 4.75L12 4.75L12 3.25Z"
+                    fill="currentColor"></path>
+                  <path
+                    d="M12.5303 4.53033C12.8232 4.23744 12.8232 3.76256 12.5303 3.46967C12.2374 3.17678 11.7626 3.17678 11.4697 3.46967L12.5303 4.53033ZM3.46967 11.4697C3.17678 11.7626 3.17678 12.2374 3.46967 12.5303C3.76256 12.8232 4.23744 12.8232 4.53033 12.5303L3.46967 11.4697ZM11.4697 3.46967L3.46967 11.4697L4.53033 12.5303L12.5303 4.53033L11.4697 3.46967Z"
+                    fill="currentColor"></path>
+                </svg>
+              </a>
+            </div>
+            <div class="hover-img">
+              <img
+                src="https://www.dior.com/couture/ecommerce/media/catalog/product/N/s/1708966129_F_24_2_LOOK_464_E11_GHC.jpg?imwidth=870"
+                alt="anime-img" class="img-fluid">
+            </div>
+          </li>
+          <li>
+            <div class="index">
+              <span>07</span>
+            </div>
+            <div class="release-year">
+              <span>M51E</span>
+            </div>
+            <div class="anime-name">
+              <h2 data-value="Dioriviera Dior Book Tote">Dioriviera Dior Book Tote</h2>
+            </div>
+            <div class="genere">
+              <span> Toile de Jouy </span>
+            </div>
+            <div class="redirect-link">
+              <a href="https://www.dior.com/ko_kr/fashion/products/M1296ZTDT_M51E-dioriviera-dior-book-tote-toile-de-jouy-36-x-27-5-x-16-5cm"
+                target="_blank">
+                <svg width="1.25rem" height="1.25rem" viewBox="0 0 16 16" fill="none" name="iconArrow"
+                  xmlns="http://www.w3.org/2000/svg">
+                  <path
+                    d="M12.75 4C12.75 3.58579 12.4142 3.25 12 3.25C11.5858 3.25 11.25 3.58579 11.25 4H12.75ZM11.25 10C11.25 10.4142 11.5858 10.75 12 10.75C12.4142 10.75 12.75 10.4142 12.75 10H11.25ZM11.25 4V10H12.75V4H11.25Z"
+                    fill="currentColor"></path>
+                  <path
+                    d="M12 4.75C12.4142 4.75 12.75 4.41421 12.75 4C12.75 3.58579 12.4142 3.25 12 3.25L12 4.75ZM6 3.25C5.58579 3.25 5.25 3.58579 5.25 4C5.25 4.41421 5.58579 4.75 6 4.75L6 3.25ZM12 3.25L6 3.25L6 4.75L12 4.75L12 3.25Z"
+                    fill="currentColor"></path>
+                  <path
+                    d="M12.5303 4.53033C12.8232 4.23744 12.8232 3.76256 12.5303 3.46967C12.2374 3.17678 11.7626 3.17678 11.4697 3.46967L12.5303 4.53033ZM3.46967 11.4697C3.17678 11.7626 3.17678 12.2374 3.46967 12.5303C3.76256 12.8232 4.23744 12.8232 4.53033 12.5303L3.46967 11.4697ZM11.4697 3.46967L3.46967 11.4697L4.53033 12.5303L12.5303 4.53033L11.4697 3.46967Z"
+                    fill="currentColor"></path>
+                </svg>
+              </a>
+            </div>
+            <div class="hover-img">
+              <img
+                src="https://www.dior.com/couture/var/dior/storage/images/pushs-editos/folder-fall-24-femme/folder-dioriviera/m1296ztdtm51e/43910390-1-eng-GB/m1296ztdtm51e_1440_1200.jpg?imwidth=640"
+                alt="anime-img" class="img-fluid">
+            </div>
+          </li>
+          <li>
+            <div class="index">
+              <span>08</span>
+            </div>
+            <div class="release-year">
+              <span>M03I</span>
+            </div>
+            <div class="anime-name">
+              <h2 data-value="Dioriviera Lady Dior">Dioriviera Lady Dior</h2>
+            </div>
+            <div class="genere">
+              <span>Natural Wicker & Candy Pink</span>
+            </div>
+            <div class="redirect-link">
+              <a href="https://www.dior.com/ko_kr/fashion/products/M0505OIFI_M03I-dioriviera-lady-dior-toile-de-jouy"
+                target="_blank">
+                <svg width="1.25rem" height="1.25rem" viewBox="0 0 16 16" fill="none" name="iconArrow"
+                  xmlns="http://www.w3.org/2000/svg">
+                  <path
+                    d="M12.75 4C12.75 3.58579 12.4142 3.25 12 3.25C11.5858 3.25 11.25 3.58579 11.25 4H12.75ZM11.25 10C11.25 10.4142 11.5858 10.75 12 10.75C12.4142 10.75 12.75 10.4142 12.75 10H11.25ZM11.25 4V10H12.75V4H11.25Z"
+                    fill="currentColor"></path>
+                  <path
+                    d="M12 4.75C12.4142 4.75 12.75 4.41421 12.75 4C12.75 3.58579 12.4142 3.25 12 3.25L12 4.75ZM6 3.25C5.58579 3.25 5.25 3.58579 5.25 4C5.25 4.41421 5.58579 4.75 6 4.75L6 3.25ZM12 3.25L6 3.25L6 4.75L12 4.75L12 3.25Z"
+                    fill="currentColor"></path>
+                  <path
+                    d="M12.5303 4.53033C12.8232 4.23744 12.8232 3.76256 12.5303 3.46967C12.2374 3.17678 11.7626 3.17678 11.4697 3.46967L12.5303 4.53033ZM3.46967 11.4697C3.17678 11.7626 3.17678 12.2374 3.46967 12.5303C3.76256 12.8232 4.23744 12.8232 4.53033 12.5303L3.46967 11.4697ZM11.4697 3.46967L3.46967 11.4697L4.53033 12.5303L12.5303 4.53033L11.4697 3.46967Z"
+                    fill="currentColor"></path>
+                </svg>
+              </a>
+            </div>
+            <div class="hover-img">
+              <img
+                src="https://www.dior.com/couture/var/dior/storage/images/pushs-editos/folder-fall-24-femme/folder-dioriviera/m0505oifim03i/43910260-1-eng-GB/m0505oifim03i_1440_1200.jpg?imwidth=640"
+                alt="anime-img" class="img-fluid">
+            </div>
+          </li>
+          <li>
+            <div class="index">
+              <span>9</span>
+            </div>
+            <div class="release-year">
+              <span>M63R</span>
+            </div>
+            <div class="anime-name">
+              <h2 data-value="Toile de Jouy">Toile de Jouy</h2>
+            </div>
+            <div class="genere">
+              <span>Coral Cannage Sheepskin</span>
+            </div>
+            <div class="redirect-link">
+              <a href="https://www.dior.com/ko_kr/fashion/products/M0538ONGE_M63R-dioriviera-lady-dior-my-abcdior"
+                target="_blank">
+                <svg width="1.25rem" height="1.25rem" viewBox="0 0 16 16" fill="none" name="iconArrow"
+                  xmlns="http://www.w3.org/2000/svg">
+                  <path
+                    d="M12.75 4C12.75 3.58579 12.4142 3.25 12 3.25C11.5858 3.25 11.25 3.58579 11.25 4H12.75ZM11.25 10C11.25 10.4142 11.5858 10.75 12 10.75C12.4142 10.75 12.75 10.4142 12.75 10H11.25ZM11.25 4V10H12.75V4H11.25Z"
+                    fill="currentColor"></path>
+                  <path
+                    d="M12 4.75C12.4142 4.75 12.75 4.41421 12.75 4C12.75 3.58579 12.4142 3.25 12 3.25L12 4.75ZM6 3.25C5.58579 3.25 5.25 3.58579 5.25 4C5.25 4.41421 5.58579 4.75 6 4.75L6 3.25ZM12 3.25L6 3.25L6 4.75L12 4.75L12 3.25Z"
+                    fill="currentColor"></path>
+                  <path
+                    d="M12.5303 4.53033C12.8232 4.23744 12.8232 3.76256 12.5303 3.46967C12.2374 3.17678 11.7626 3.17678 11.4697 3.46967L12.5303 4.53033ZM3.46967 11.4697C3.17678 11.7626 3.17678 12.2374 3.46967 12.5303C3.76256 12.8232 4.23744 12.8232 4.53033 12.5303L3.46967 11.4697ZM11.4697 3.46967L3.46967 11.4697L4.53033 12.5303L12.5303 4.53033L11.4697 3.46967Z"
+                    fill="currentColor"></path>
+                </svg>
+              </a>
+            </div>
+            <div class="hover-img">
+              <img
+                src="https://www.dior.com/couture/var/dior/storage/images/pushs-editos/folder-fall-24-femme/folder-dioriviera/m0538ongem63r/43910286-1-eng-GB/m0538ongem63r_1440_1200.jpg?imwidth=640"
+                alt="anime-img" class="img-fluid">
+            </div>
+          </li>
+          <li>
+            <div class="index">
+              <span>10</span>
+            </div>
+            <div class="release-year">
+              <span>M904</span>
+            </div>
+            <div class="anime-name">
+              <h2 data-value="Dior Jolie ">Dior Jolie </h2>
+            </div>
+            <div class="genere">
+              <span>
+                Black Macro Cannage</span>
+            </div>
+            <div class="redirect-link">
+              <a href="https://www.dior.com/ko_kr/fashion/products/M2780UNKW_M900-dior-jolie" target="_blank">
+                <svg width="1.25rem" height="1.25rem" viewBox="0 0 16 16" fill="none" name="iconArrow"
+                  xmlns="http://www.w3.org/2000/svg">
+                  <path
+                    d="M12.75 4C12.75 3.58579 12.4142 3.25 12 3.25C11.5858 3.25 11.25 3.58579 11.25 4H12.75ZM11.25 10C11.25 10.4142 11.5858 10.75 12 10.75C12.4142 10.75 12.75 10.4142 12.75 10H11.25ZM11.25 4V10H12.75V4H11.25Z"
+                    fill="currentColor"></path>
+                  <path
+                    d="M12 4.75C12.4142 4.75 12.75 4.41421 12.75 4C12.75 3.58579 12.4142 3.25 12 3.25L12 4.75ZM6 3.25C5.58579 3.25 5.25 3.58579 5.25 4C5.25 4.41421 5.58579 4.75 6 4.75L6 3.25ZM12 3.25L6 3.25L6 4.75L12 4.75L12 3.25Z"
+                    fill="currentColor"></path>
+                  <path
+                    d="M12.5303 4.53033C12.8232 4.23744 12.8232 3.76256 12.5303 3.46967C12.2374 3.17678 11.7626 3.17678 11.4697 3.46967L12.5303 4.53033ZM3.46967 11.4697C3.17678 11.7626 3.17678 12.2374 3.46967 12.5303C3.76256 12.8232 4.23744 12.8232 4.53033 12.5303L3.46967 11.4697ZM11.4697 3.46967L3.46967 11.4697L4.53033 12.5303L12.5303 4.53033L11.4697 3.46967Z"
+                    fill="currentColor"></path>
+                </svg>
+              </a>
+            </div>
+            <div class="hover-img">
+              <img
+                src="https://www.dior.com/couture/var/dior/storage/images/pushs-editos/folder-fall-24-femme/m2780unkwm900/43589872-1-eng-GB/m2780unkwm900_1440_1200.jpg?imwidth=640"
+                alt="anime-img" class="img-fluid">
+            </div>
+          </li>
+          <li>
+            <div class="index">
+              <span>11</span>
+            </div>
+            <div class="release-year">
+              <span>M900</span>
+            </div>
+            <div class="anime-name">
+              <h2 data-value="Arcane">Arcane</h2>
+            </div>
+            <div class="genere">
+              <span>Black Macrocannage calf leather</span>
+            </div>
+            <div class="redirect-link">
+              <a href="https://www.dior.com/ko_kr/fashion/products/M0565ONGE_M900-lady-dior" target="_blank">
+                <svg width="1.25rem" height="1.25rem" viewBox="0 0 16 16" fill="none" name="iconArrow"
+                  xmlns="http://www.w3.org/2000/svg">
+                  <path
+                    d="M12.75 4C12.75 3.58579 12.4142 3.25 12 3.25C11.5858 3.25 11.25 3.58579 11.25 4H12.75ZM11.25 10C11.25 10.4142 11.5858 10.75 12 10.75C12.4142 10.75 12.75 10.4142 12.75 10H11.25ZM11.25 4V10H12.75V4H11.25Z"
+                    fill="currentColor"></path>
+                  <path
+                    d="M12 4.75C12.4142 4.75 12.75 4.41421 12.75 4C12.75 3.58579 12.4142 3.25 12 3.25L12 4.75ZM6 3.25C5.58579 3.25 5.25 3.58579 5.25 4C5.25 4.41421 5.58579 4.75 6 4.75L6 3.25ZM12 3.25L6 3.25L6 4.75L12 4.75L12 3.25Z"
+                    fill="currentColor"></path>
+                  <path
+                    d="M12.5303 4.53033C12.8232 4.23744 12.8232 3.76256 12.5303 3.46967C12.2374 3.17678 11.7626 3.17678 11.4697 3.46967L12.5303 4.53033ZM3.46967 11.4697C3.17678 11.7626 3.17678 12.2374 3.46967 12.5303C3.76256 12.8232 4.23744 12.8232 4.53033 12.5303L3.46967 11.4697ZM11.4697 3.46967L3.46967 11.4697L4.53033 12.5303L12.5303 4.53033L11.4697 3.46967Z"
+                    fill="currentColor"></path>
+                </svg>
+              </a>
+            </div>
+            <div class="hover-img">
+              <img
+                src="https://www.dior.com/couture/var/dior/storage/images/pushs-editos/folder-fall-24-femme/folder-rosalia-x-lady-dior/m0565ongem900/44071988-1-eng-GB/m0565ongem900_1440_1200.jpg?imwidth=640"
+                alt="anime-img" class="img-fluid">
+            </div>
+          </li>
+          <li>
+            <div class="index">
+              <span>12</span>
+            </div>
+            <div class="release-year">
+              <span>M982</span>
+            </div>
+            <div class="anime-name">
+              <h2 data-value="haikyuu">haikyuu </h2>
+            </div>
+            <div class="genere">
+              <span>elegance and beauty</span>
+            </div>
+            <div class="redirect-link">
+              <a href="https://www.dior.com/ko_kr/fashion/products/M4401UNMZ_M900-dior-ange" target="_blank">
+                <svg width="1.25rem" height="1.25rem" viewBox="0 0 16 16" fill="none" name="iconArrow"
+                  xmlns="http://www.w3.org/2000/svg">
+                  <path
+                    d="M12.75 4C12.75 3.58579 12.4142 3.25 12 3.25C11.5858 3.25 11.25 3.58579 11.25 4H12.75ZM11.25 10C11.25 10.4142 11.5858 10.75 12 10.75C12.4142 10.75 12.75 10.4142 12.75 10H11.25ZM11.25 4V10H12.75V4H11.25Z"
+                    fill="currentColor"></path>
+                  <path
+                    d="M12 4.75C12.4142 4.75 12.75 4.41421 12.75 4C12.75 3.58579 12.4142 3.25 12 3.25L12 4.75ZM6 3.25C5.58579 3.25 5.25 3.58579 5.25 4C5.25 4.41421 5.58579 4.75 6 4.75L6 3.25ZM12 3.25L6 3.25L6 4.75L12 4.75L12 3.25Z"
+                    fill="currentColor"></path>
+                  <path
+                    d="M12.5303 4.53033C12.8232 4.23744 12.8232 3.76256 12.5303 3.46967C12.2374 3.17678 11.7626 3.17678 11.4697 3.46967L12.5303 4.53033ZM3.46967 11.4697C3.17678 11.7626 3.17678 12.2374 3.46967 12.5303C3.76256 12.8232 4.23744 12.8232 4.53033 12.5303L3.46967 11.4697ZM11.4697 3.46967L3.46967 11.4697L4.53033 12.5303L12.5303 4.53033L11.4697 3.46967Z"
+                    fill="currentColor"></path>
+                </svg>
+              </a>
+            </div>
+            <div class="hover-img">
+              <img
+                src="https://www.dior.com/couture/var/dior/storage/images/pushs-editos/folder-fall-24-femme/m4401unmzm900/43589976-1-eng-GB/m4401unmzm900_1440_1200.jpg?imwidth=640"
+                alt="anime-img" class="img-fluid">
+            </div>
+          </li>
+        </ul>
+      </div>
+    </section>
+     <!-- end page5 -->
+
+    <section id="page6" data-bgcolor="#c9c8c9">
+
+      <section class="work">
+        <ul>
+          <li>
+            <a href="#">
+              <div class="imgBox">
+                <img
+                  src="https://alook.so/file_storages/blobs/proxy/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBBOFdWQkE9PSIsImV4cCI6bnVsbCwicHVyIjoiYmxvYl9pZCJ9fQ==--515e674918764fe06b71fab0b7b3e9b077e69e92/image.png"
+                  alt="work1">
+              </div>
+              <div class="textBox">
+                <p class="title1">Christian-Dior</p>
+                <p class="text1">is a famous high-end fashion <br>
+                  brand founded in 1946 <br>
+                  by French fashion designer Italien Dior.</p>
+              </div>
+            </a>
+          </li>
+          <li>
+            <a href="#">
+              <div class="imgBox">
+                <img src="https://galeriedior.imgix.net/images/Dior-neg-01_opt.JPG" alt="work2">
+              </div>
+              <div class="textBox">
+                <p class="text2">The first collection, <br>
+                  Spring-Summer 1947,<br>
+                  was presented at the salon at <br>
+                  30 Avenue Montaigne on February 12</p>
+                <p class="title2">beginning of history</p>
+              </div>
+            </a>
+          </li>
+          <li>
+            <a href="#">
+              <div class="imgBox">
+                <img src="https://galeriedior.imgix.net/images/1947_1957_CD_E0_000_088.jpg" alt="work3">
+              </div>
+              <div class="textBox">
+                <p class="title3">Director</p>
+                <p class="text3"> Parfums Christian Dior <br>
+                  was founded and Christian Dior's <br>
+                  childhood friend Serge Heftler-Ruische was appointed director</p>
+              </div>
+            </a>
+          </li>
+          <li>
+            <a href="#">
+              <div class="imgBox">
+                <img
+                  src="https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FqSMSf%2FbtqCPz644lL%2FKqIEw9JW8e3sWjKGscZw2k%2Fimg.jpg"
+                  alt="work4">
+              </div>
+              <div class="textBox">
+                <p class="text4">We purchased the Moulin du Coudret, <br>
+                  an old textile mill in Millie-la-Foret, near Paris
+                  <p class="title4">Millie La Foret</p>
+              </div>
+            </a>
+          </li>
+          <li>
+            <a href="#">
+              <div class="imgBox">
+                <img src="https://galeriedior.imgix.net/images/23_SORBONNE_1955_004_1.JPG" alt="work5">
+              </div>
+              <div class="textBox">
+                <p class="title5">Legion</p>
+                <p class="text5">Philippe Gyborgge creates <br>
+                  the couture house's ready-to-wear line, Miss Dior.</p>
+              </div>
+            </a>
+          </li>
+        </ul>
+      </section>
+
+    </section>
+    <!-- end page6 -->
+
+    <section id="page7">
+    </section>
+    <!-- end page7 -->
+
+    <div id="page8" data-scroll data-scroll-speed="2">
+      <canvas></canvas>
+    </div>
+    <!-- end page8 -->
+
+    <section id="page9">
+      <div class="text_wrap">
+        <div class="div-hide one" data-direct="1">
+          <div class="heading-large sm-mobile line-height">Christian Dior Paris</div>
+        </div>
+        <div class="div-hide pull two" data-direct="-1">
+          <div class="heading-large sm-mobile line-height"> Galerie for Jacques </div>
+        </div>
+        <div class="div-hide push three" data-direct="1">
+          <div class="heading-large sm-mobile line-height">LEARN SHARE KNOWLEDGE</div>
+        </div>
+        <div class="div-hide pull-small four" data-direct="-1">
+          <div class="heading-large sm-mobile line-height"> Lucien Lel <br>
+            ong LEARN</div>
+        </div>
+      </div>
+    </section>
+     <!-- end page9 -->
+
+    <div id="page10" class="slider-card d-flex flex-column justify-content-center">
+      <div class="slider-card-inner">
+        <div class="slider-box d-flex">
+          <div class="slider-left">
+            <img src="https://i.pinimg.com/564x/53/44/9e/53449e8a9d51b49df426e94e45118347.jpg" alt="img"
+              class="img-fluid img-1">
+            <img src="https://i.pinimg.com/564x/e2/83/75/e28375c78e6632e4b12723d712726a91.jpg" alt="img"
+              class="img-fluid img-2">
+            <img src="https://i.pinimg.com/564x/4a/6c/3e/4a6c3ea5a1fff4362743784d1ecaf7c5.jpg" alt="img"
+              class="img-fluid img-3">
+            <img src="https://i.pinimg.com/564x/6c/59/40/6c5940c3310107b66070837b84743a47.jpg" alt="img"
+              class="img-fluid img-4">
+            <img src="https://i.pinimg.com/564x/c5/48/5c/c5485c84941129aabffb889c62c0657e.jpg" alt="img"
+              class="img-fluid img-5">
+          </div>
+          <div class="slider-right">
+            <img src="https://i.pinimg.com/564x/a4/36/0d/a4360d0efb72786ea455a0bef140b7fe.jpg" alt="img"
+              class="img-fluid img-1">
+            <img src="https://i.pinimg.com/564x/bb/b6/0e/bbb60ed0ccaccd6ce1099b38dbd68fd9.jpg" alt="img"
+              class="img-fluid img-2">
+            <img src="https://i.pinimg.com/564x/3a/63/8c/3a638c00b6ff570dee5319690feb03ce.jpg" alt="img"
+              class="img-fluid img-3">
+            <img src="https://i.pinimg.com/564x/49/bb/a7/49bba7212500648b2d83f322d4820b80.jpg" alt="img"
+              class="img-fluid img-4">
+            <img src="https://i.pinimg.com/564x/8b/1d/b4/8b1db4d6e25adcec371bbe21efeab164.jpg" alt="img"
+              class="img-fluid img-5">
+          </div>
+        </div>
+      </div>
+    </div>
+     <!-- end page10 -->
+
+
+    <section id="page11" class="loading">
+      <main>
+        <section class="content10">
+          <div class="grid grid--1">
+            <div class="grid-wrap">
+              <div class="grid__item">
+                <div class="grid__item-inner"
+                  style="background-image:url(https://www.dior.com/couture/var/dior/storage/images/pushs-editos/folder-fall-24-femme/folder-dioriviera/m1296ztdtm03i-1/43910312-1-eng-GB/m1296ztdtm03i-1_1440_1200.jpg?imwidth=640)">
+                </div>
+              </div>
+              <div class="grid__item">
+                <div class="grid__item-inner"
+                  style="background-image:url(https://www.dior.com/couture/var/dior/storage/images/pushs-editos/folder-fall-24-femme/folder-dioriviera/m0538ongem63r/43910286-1-eng-GB/m0538ongem63r_1440_1200.jpg?imwidth=640)">
+                </div>
+              </div>
+              <div class="grid__item">
+                <div class="grid__item-inner"
+                  style="background-image:url(https://www.dior.com/couture/var/dior/storage/images/pushs-editos/folder-fall-24-femme/m2780unkwm900/43589872-1-eng-GB/m2780unkwm900_1440_1200.jpg?imwidth=640)">
+                </div>
+              </div>
+              <div class="grid__item">
+                <div class="grid__item-inner"
+                  style="background-image:url(https://www.dior.com/couture/var/dior/storage/images/pushs-editos/folder-fall-24-femme/m0565oegmm911/43589612-1-eng-GB/m0565oegmm911_1440_1200.jpg?imwidth=640)">
+                </div>
+              </div>
+              <div class="grid__item">
+                <div class="grid__item-inner"
+                  style="background-image:url(https://i.pinimg.com/564x/53/44/9e/53449e8a9d51b49df426e94e45118347.jpg)">
+                </div>
+              </div>
+              <div class="grid__item">
+                <div class="grid__item-inner"
+                  style="background-image:url(https://i.pinimg.com/564x/bb/b6/0e/bbb60ed0ccaccd6ce1099b38dbd68fd9.jpg)">
+                </div>
+              </div>
+              <div class="grid__item">
+                <div class="grid__item-inner"
+                  style="background-image:url(https://www.dior.com/couture/var/dior/storage/images/pushs-editos/folder-fall-24-femme/m1296zegmm20e/43589768-1-eng-GB/m1296zegmm20e_1440_1200.jpg?imwidth=640)">
+                </div>
+              </div>
+              <div class="grid__item">
+                <div class="grid__item-inner"
+                  style="background-image:url(https://i.postimg.cc/jSXbBw9R/318475533_933555457608287_8846856192816240898_n.jpg)">
+                </div>
+              </div>
+              <div class="grid__item">
+                <div class="grid__item-inner" style="background-image:url(https://i.postimg.cc/bYH8n5gG/3.jpg)"></div>
+              </div>
+              <div class="grid__item">
+                <div class="grid__item-inner"
+                  style="background-image:url(https://i.postimg.cc/Y9FkGQy8/TrakeXcel-Read-insights-and-tips-from-our-team.png)">
+                </div>
+              </div>
+              <div class="grid__item">
+                <div class="grid__item-inner" style="background-image:url(https://i.postimg.cc/tJ5jH1Jd/4.jpg)"></div>
+              </div>
+              <div class="grid__item">
+                <div class="grid__item-inner"
+                  style="background-image:url(https://i.postimg.cc/jSXbBw9R/318475533_933555457608287_8846856192816240898_n.jpg)">
+                </div>
+              </div>
+              <div class="grid__item">
+                <div class="grid__item-inner"
+                  style="background-image:url(https://i.pinimg.com/564x/e2/83/75/e28375c78e6632e4b12723d712726a91.jpg)">
+                </div>
+              </div>
+              <div class="grid__item">
+                <div class="grid__item-inner"
+                  style="background-image:url(https://i.pinimg.com/564x/8b/1d/b4/8b1db4d6e25adcec371bbe21efeab164.jpg)">
+                </div>
+              </div>
+              <div class="grid__item">
+                <div class="grid__item-inner"
+                  style="background-image:url(https://img.smlounge.co.kr/upload/NPFILE/202205/488146.jpg)"></div>
+              </div>
+              <div class="grid__item">
+                <div class="grid__item-inner"
+                  style="background-image:url(https://i.postimg.cc/jSXbBw9R/318475533_933555457608287_8846856192816240898_n.jpg)">
+                </div>
+              </div>
+              <div class="grid__item">
+                <div class="grid__item-inner"
+                  style="background-image:url(https://i.postimg.cc/x8sV6M2h/306097846_392786893005788_1065876871316666649_n.jpg)">
+                </div>
+              </div>
+              <div class="grid__item">
+                <div class="grid__item-inner" style="background-image:url(img/디올1.avif)"></div>
+              </div>
+              <div class="grid__item">
+                <div class="grid__item-inner" style="background-image:url(img/10.jpg)"></div>
+              </div>
+              <div class="grid__item">
+                <div class="grid__item-inner"
+                  style="background-image:url(https://www.google.com/url?sa=i&url=https%3A%2F%2Fkr.freepik.com%2Fpremium-photo%2Ffashion-design-sketch-created-with-generative-ai_45637113.htm&psig=AOvVaw0A9gw1fKDPmNTU4rt9ujah&ust=1718872409349000&source=images&cd=vfe&opi=89978449&ved=0CBEQjRxqFwoTCJjq5e2g54YDFQAAAAAdAAAAABAP)">
+                </div>
+              </div>
+              <div class="grid__item">
+                <div class="grid__item-inner" style="background-image:url(img/21.jpg)"></div>
+              </div>
+              <div class="grid__item">
+                <div class="grid__item-inner"
+                  style="background-image:url(https://www.elle.co.kr/resources_old/online/org_online_image/el/0b307287-5940-4c20-9b0c-cabb5a27e9e6.jpg)">
+                </div>
+              </div>
+              <div class="grid__item">
+                <div class="grid__item-inner"
+                  style="background-image:url(https://cdn.vdcm.co.kr/news/photo/202403/11500_33896_371.jpg)">
+                </div>
+              </div>
+              <div class="grid__item">
+                <div class="grid__item-inner"
+                  style="background-image:url(https://i.postimg.cc/x8sV6M2h/306097846_392786893005788_1065876871316666649_n.jpg)">
+                </div>
+              </div>
+              <div class="grid__item">
+                <div class="grid__item-inner"
+                  style="background-image:url(https://img.wkorea.com/w/2020/03/style_5e5cb00b641d0-539x700.jpg)"></div>
+              </div>
+              <div class="grid__item">
+                <div class="grid__item-inner"
+                  style="background-image:url(https://cdn.vdcm.co.kr/news/photo/202403/11500_33896_371.jpg)">
+                </div>
+              </div>
+              <div class="grid__item">
+                <div class="grid__item-inner" style="background-image:url(img/27.jpg)"></div>
+              </div>
+              <div class="grid__item">
+                <div class="grid__item-inner"
+                  style="background-image:url(https://i.postimg.cc/x8sV6M2h/306097846_392786893005788_1065876871316666649_n.jpg)">
+                </div>
+              </div>
+              <div class="grid__item">
+                <div class="grid__item-inner"
+                  style="background-image:url(https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.istockphoto.com%2Fkr%2F%25EC%259D%25B4%25EB%25AF%25B8%25EC%25A7%2580%2F%25ED%258C%25A8%25EC%2585%2598-%25EB%2594%2594%25EC%259E%2590%25EC%259D%25B8-%25EC%258A%25A4%25EC%25BC%2580%25EC%25B9%2598&psig=AOvVaw361i1N1Na1qqntupqg5Z7t&ust=1718872508997000&source=images&cd=vfe&opi=89978449&ved=0CBEQjRxqFwoTCJj3p5yh54YDFQAAAAAdAAAAABAJ)">
+                </div>
+              </div>
+              <div class="grid__item">
+                <div class="grid__item-inner"
+                  style="background-image:url(https://i.pinimg.com/236x/f8/d1/ed/f8d1ed3a7d99156a46512db4711a78d2.jpg)">
+                </div>
+              </div>
+              <div class="grid__item">
+                <div class="grid__item-inner"
+                  style="background-image:url(https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTE8vGDkR_c-WLFCJW5qvXX4OmMQzbK1oldE5hXsnj_tSNPfBovZ3dS6uHQZ9N6MJx2X2Y&usqp=CAU)">
+                </div>
+              </div>
+              <div class="grid__item">
+                <div class="grid__item-inner"
+                  style="background-image:url(https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ7PZ12JF0PYRA92DhwQCCXCHC1Z8RJxm0ybg&s)">
+                </div>
+              </div>
+              <div class="grid__item">
+                <div class="grid__item-inner" style="background-image:url(https://i.postimg.cc/5NMNdYFM/Fabric.png)">
+                </div>
+              </div>
+              <div class="grid__item">
+                <div class="grid__item-inner"
+                  style="background-image:url(https://cdn.class101.net/images/4f672952-8597-4555-88e0-94acdb6667f5/1200x630)">
+                </div>
+              </div>
+              <div class="grid__item">
+                <div class="grid__item-inner"
+                  style="background-image:url(https://i.postimg.cc/x8sV6M2h/306097846_392786893005788_1065876871316666649_n.jpg)">
+                </div>
+              </div>
+              <div class="grid__item">
+                <div class="grid__item-inner"
+                  style="background-image:url(https://i.postimg.cc/jSXbBw9R/318475533_933555457608287_8846856192816240898_n.jpg)">
+                </div>
+              </div>
+              <div class="grid__item">
+                <div class="grid__item-inner"
+                  style="background-image:url(https://i.pinimg.com/236x/39/18/c8/3918c837f16d360b3866f213e467f11e.jpg)">
+                </div>
+              </div>
+              <div class="grid__item">
+                <div class="grid__item-inner" style="background-image:url(https://i.postimg.cc/5NMNdYFM/Fabric.png)">
+                </div>
+              </div>
+              <div class="grid__item">
+                <div class="grid__item-inner"
+                  style="background-image:url(https://i.pinimg.com/736x/d7/df/32/d7df3291e1e14b7207dd3f670e6acb4b.jpg)">
+                </div>
+              </div>
+              <div class="grid__item">
+                <div class="grid__item-inner"
+                  style="background-image:url(https://i.postimg.cc/x8sV6M2h/306097846_392786893005788_1065876871316666649_n.jpg)">
+                </div>
+              </div>
+              <div class="grid__item">
+                <div class="grid__item-inner"
+                  style="background-image:url(https://res.heraldm.com/content/image/2022/12/02/20221202000164_0.jpg)">
+                </div>
+              </div>
+              <div class="grid__item">
+                <div class="grid__item-inner"
+                  style="background-image:url(https://png.pngtree.com/background/20230401/original/pngtree-roses-gerbera-sweet-pea-flowers-oil-painting-floral-background-picture-image_2249684.jpg)">
+                </div>
+              </div>
+              <div class="grid__item">
+                <div class="grid__item-inner"
+                  style="background-image:url(https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTdhIn89sF5e8PR2Zecz8Nf3z0ifpgzHnS3qg&s)">
+                </div>
+              </div>
+              <div class="grid__item">
+                <div class="grid__item-inner"
+                  style="background-image:url(https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQqg7pr-wfW7RN1YEejW2xYLGU5SmZ-Kt5kpQ&s)">
+                </div>
+              </div>
+              <div class="grid__item">
+                <div class="grid__item-inner"
+                  style="background-image:url(https://img.marieclairekorea.com/2022/03/mck_621f16da712b4-scaled.jpg)">
+                </div>
+              </div>
+              <div class="grid__item">
+                <div class="grid__item-inner"
+                  style="background-image:url(https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQWIElORlERBJwYkF8SwIw3H4AydSCAnrniEQ&s)">
+                </div>
+              </div>
+              <div class="grid__item">
+                <div class="grid__item-inner"
+                  style="background-image:url(https://img.kwcdn.com/product/Fancyalgo/VirtualModelMatting/22637047913de16806ba8dec0aeb7581.jpg?imageMogr2/auto-orient%7CimageView2/2/w/800/q/70/format/webp)">
+                </div>
+              </div>
+              <div class="grid__item">
+                <div class="grid__item-inner"
+                  style="background-image:url(https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTjwbHgC9h1DEcQRgxwRRvibPP3VtHwJ7Vhig&s)">
+                </div>
+              </div>
+
+              <div class="grid__item">
+                <div class="grid__item-inner"
+                  style="background-image:url(https://mblogthumb-phinf.pstatic.net/MjAyMDA4MThfODQg/MDAxNTk3NzE3MzYyMzU3.C3vL1CATLqFQqNxfUhMm8kiWL0aRuzoSSDWDJI-sVGAg.1-TKGpuZeXoYLt6qxtuI4v6XLcD5yoYKPewy8OKHCCAg.JPEG.sloweeds-textile/%ED%81%AC%EB%A6%AC%EC%8A%A4%EC%B1%A4_%EB%94%94%EC%98%AC_%EB%B6%80%ED%8B%B0%ED%81%AC_%EC%95%9E%EC%97%90%EC%84%9C_%ED%8F%AC%EC%A6%88%EB%A5%BC_%EC%B7%A8%ED%95%9C_%EC%A7%81%EC%9B%90%EB%93%A4.jpg?type=w800)">
+                </div>
+              </div>
+              <div class="grid__item">
+                <div class="grid__item-inner"
+                  style="background-image:url(https://img.allurekorea.com/allure/2016/11/style_5836a0cb41520.jpg)">
+                </div>
+              </div>
+              <div class="grid__item">
+                <div class="grid__item-inner"
+                  style="background-image:url(https://oncuration.com/wp-content/uploads/2023/03/%EC%83%A4%EB%84%AC-%EB%94%94%EC%98%AC-%EB%94%94%EC%9E%90%EC%9D%B4%EB%84%88.jpg)">
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <h3 class="content__title uzih3"></h3>
+
+        </section>
+        <section class="content10 content--spacing">
+          <div class="grid grid--5">
+            <div class="grid-wrap">
+              <div class="grid__item">
+                <div class="grid__item-inner"
+                  style="background-image:url(https://oncuration.com/wp-content/uploads/2023/03/%EC%83%A4%EB%84%AC-%EB%94%94%EC%98%AC-%EB%94%94%EC%9E%90%EC%9D%B4%EB%84%88.jpg)">
+                </div>
+              </div>
+              <div class="grid__item">
+                <div class="grid__item-inner"
+                  style="background-image:url(https://img.allurekorea.com/allure/2016/11/style_5836a0cb41520.jpg)">
+                </div>
+              </div>
+              <div class="grid__item">
+                <div class="grid__item-inner"
+                  style="background-image:url(https://mblogthumb-phinf.pstatic.net/MjAyMDA4MThfODQg/MDAxNTk3NzE3MzYyMzU3.C3vL1CATLqFQqNxfUhMm8kiWL0aRuzoSSDWDJI-sVGAg.1-TKGpuZeXoYLt6qxtuI4v6XLcD5yoYKPewy8OKHCCAg.JPEG.sloweeds-textile/%ED%81%AC%EB%A6%AC%EC%8A%A4%EC%B1%A4_%EB%94%94%EC%98%AC_%EB%B6%80%ED%8B%B0%ED%81%AC_%EC%95%9E%EC%97%90%EC%84%9C_%ED%8F%AC%EC%A6%88%EB%A5%BC_%EC%B7%A8%ED%95%9C_%EC%A7%81%EC%9B%90%EB%93%A4.jpg?type=w800)">
+                </div>
+              </div>
+              <div class="grid__item">
+                <div class="grid__item-inner"
+                  style="background-image:url(https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTjwbHgC9h1DEcQRgxwRRvibPP3VtHwJ7Vhig&s)">
+                </div>
+              </div>
+              <div class="grid__item">
+                <div class="grid__item-inner"
+                  style="background-image:url(https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQWIElORlERBJwYkF8SwIw3H4AydSCAnrniEQ&s)">
+                </div>
+              </div>
+              <div class="grid__item">
+                <div class="grid__item-inner"
+                  style="background-image:url(https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQqg7pr-wfW7RN1YEejW2xYLGU5SmZ-Kt5kpQ&s)">
+                </div>
+              </div>
+              <div class="grid__item">
+                <div class="grid__item-inner"
+                  style="background-image:url(https://cdn.pixabay.com/photo/2014/07/21/17/52/museum-398761_1280.jpg)">
+                </div>
+              </div>
+              <div class="grid__item">
+                <div class="grid__item-inner"
+                  style="background-image:url(https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.istockphoto.com%2Fkr%2F%25EC%259D%25B4%25EB%25AF%25B8%25EC%25A7%2580%2F%25ED%258C%25A8%25EC%2585%2598-%25EB%2594%2594%25EC%259E%2590%25EC%259D%25B8-%25EC%258A%25A4%25EC%25BC%2580%25EC%25B9%2598&psig=AOvVaw361i1N1Na1qqntupqg5Z7t&ust=1718872508997000&source=images&cd=vfe&opi=89978449&ved=0CBEQjRxqFwoTCJj3p5yh54YDFQAAAAAdAAAAABAJ)">
+                </div>
+              </div>
+              <div class="grid__item">
+                <div class="grid__item-inner" style="background-image:url(https://i.postimg.cc/bYH8n5gG/3.jpg)"></div>
+              </div>
+              <div class="grid__item">
+                <div class="grid__item-inner"
+                  style="background-image:url(https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.istockphoto.com%2Fkr%2F%25EC%259D%25B4%25EB%25AF%25B8%25EC%25A7%2580%2F%25ED%258C%25A8%25EC%2585%2598-%25EB%2594%2594%25EC%259E%2590%25EC%259D%25B8-%25EC%258A%25A4%25EC%25BC%2580%25EC%25B9%2598&psig=AOvVaw361i1N1Na1qqntupqg5Z7t&ust=1718872508997000&source=images&cd=vfe&opi=89978449&ved=0CBEQjRxqFwoTCJj3p5yh54YDFQAAAAAdAAAAABAJ)">
+                </div>
+              </div>
+              <div class="grid__item">
+                <div class="grid__item-inner" style="background-image:url(https://i.postimg.cc/tJ5jH1Jd/4.jpg)"></div>
+              </div>
+              <div class="grid__item">
+                <div class="grid__item-inner"
+                  style="background-image:url(https://i.postimg.cc/jSXbBw9R/318475533_933555457608287_8846856192816240898_n.jpg)">
+                </div>
+              </div>
+              <div class="grid__item">
+                <div class="grid__item-inner" style="background-image:url(https://i.postimg.cc/bYH8n5gG/3.jpg)"></div>
+              </div>
+              <div class="grid__item">
+                <div class="grid__item-inner"
+                  style="background-image:url(https://i.postimg.cc/nzfC9VsT/65377df662e1494edd8d5e15_Captura_de_pantalla_2023-09-19_a_las_12.38_2.webp)">
+                </div>
+              </div>
+              <div class="grid__item">
+                <div class="grid__item-inner"
+                  style="background-image:url(https://img.freepik.com/premium-photo/flowerstheoilpaintingstyle_635702-1434.jpg)">
+                </div>
+              </div>
+              <div class="grid__item">
+                <div class="grid__item-inner"
+                  style="background-image:url(https://i.postimg.cc/jSXbBw9R/318475533_933555457608287_8846856192816240898_n.jpg)">
+                </div>
+              </div>
+              <div class="grid__item">
+                <div class="grid__item-inner"
+                  style="background-image:url(https://i.postimg.cc/x8sV6M2h/306097846_392786893005788_1065876871316666649_n.jpg)">
+                </div>
+              </div>
+              <div class="grid__item">
+                <div class="grid__item-inner"
+                  style="background-image:url(https://fpost.co.kr/board/data/editor/2007/10c0a89d540894d5526f626a3d140602_1595658002_9775.jpg)">
+                </div>
+              </div>
+              <div class="grid__item">
+                <div class="grid__item-inner" style="background-image:url(img/19.jpg)"></div>
+              </div>
+              <div class="grid__item">
+                <div class="grid__item-inner"
+                  style="background-image:url(https://fpost.co.kr/board/data/editor/2007/10c0a89d540894d5526f626a3d140602_1595658002_9775.jpg)">
+                </div>
+              </div>
+              <div class="grid__item">
+                <div class="grid__item-inner" style="background-image:url(img/21.jpg)"></div>
+              </div>
+              <div class="grid__item">
+                <div class="grid__item-inner"
+                  style="background-image:url(https://res.heraldm.com/content/image/2022/12/02/20221202000164_0.jpg)">
+                </div>
+              </div>
+              <div class="grid__item">
+                <div class="grid__item-inner"
+                  style="background-image:url(https://oncuration.com/wp-content/uploads/2023/03/%EB%94%94%EC%98%AC-%EA%BF%88%EC%9D%98-%EC%95%84%EB%9C%B0%EB%A6%AC%EC%97%90.jpg)">
+                </div>
+              </div>
+              <div class="grid__item">
+                <div class="grid__item-inner"
+                  style="background-image:url(https://i.postimg.cc/x8sV6M2h/306097846_392786893005788_1065876871316666649_n.jpg)">
+                </div>
+              </div>
+              <div class="grid__item">
+                <div class="grid__item-inner"
+                  style="background-image:url(https://i.ytimg.com/vi/tkBRBJjPg9I/maxresdefault.jpg)"></div>
+              </div>
+              <div class="grid__item">
+                <div class="grid__item-inner"
+                  style="background-image:url(https://oncuration.com/wp-content/uploads/2023/03/%EB%94%94%EC%98%AC-%EA%BF%88%EC%9D%98-%EC%95%84%EB%9C%B0%EB%A6%AC%EC%97%90.jpg)">
+                </div>
+              </div>
+              <div class="grid__item">
+                <div class="grid__item-inner" style="background-image:url(img/27.jpg)"></div>
+              </div>
+              <div class="grid__item">
+                <div class="grid__item-inner"
+                  style="background-image:url(https://i.postimg.cc/x8sV6M2h/306097846_392786893005788_1065876871316666649_n.jpg)">
+                </div>
+              </div>
+              <div class="grid__item">
+                <div class="grid__item-inner" style="background-image:url(https://i.postimg.cc/5NMNdYFM/Fabric.png)">
+                </div>
+              </div>
+              <div class="grid__item">
+                <div class="grid__item-inner" style="background-image:url(img/30.jpg)"></div>
+              </div>
+              <div class="grid__item">
+                <div class="grid__item-inner" style="background-image:url(img/31.jpg)"></div>
+              </div>
+              <div class="grid__item">
+                <div class="grid__item-inner"
+                  style="background-image:url(https://img.freepik.com/premium-photo/flowerstheoilpaintingstyle_635702-1434.jpg)">
+                </div>
+              </div>
+              <div class="grid__item">
+                <div class="grid__item-inner"
+                  style="background-image:url(https://img.marieclairekorea.com/2022/03/mck_621f16da712b4-scaled.jpg)">
+                </div>
+              </div>
+              <div class="grid__item">
+                <div class="grid__item-inner" style="background-image:url(img/34.jpg)"></div>
+              </div>
+              <div class="grid__item">
+                <div class="grid__item-inner"
+                  style="background-image:url(https://i.postimg.cc/x8sV6M2h/306097846_392786893005788_1065876871316666649_n.jpg)">
+                </div>
+              </div>
+              <div class="grid__item">
+                <div class="grid__item-inner"
+                  style="background-image:url(https://www.dior.com/couture/var/dior/storage/images/pushs-editos/folder-fall-24-femme/m2780unkwm900/43589872-1-eng-GB/m2780unkwm900_1440_1200.jpg?imwidth=640)">
+                </div>
+              </div>
+              <div class="grid__item">
+                <div class="grid__item-inner" style="background-image:url(./img/37.jpg)"></div>
+              </div>
+              <div class="grid__item">
+                <div class="grid__item-inner"
+                  style="background-image:url(https://www.galleryhyundai.com/public/2023/01/13/17/40/1/0a04a1ed-abdb-4772-a984-e0d4d9ce8d36.resize_large.JPG)">
+                </div>
+              </div>
+              <div class="grid__item">
+                <div class="grid__item-inner"
+                  style="background-image:url(https://cdn.pixabay.com/photo/2016/11/15/10/08/painting-1825822_1280.jpg)">
+                </div>
+              </div>
+              <div class="grid__item">
+                <div class="grid__item-inner"
+                  style="background-image:url(https://i.postimg.cc/x8sV6M2h/306097846_392786893005788_1065876871316666649_n.jpg)">
+                </div>
+              </div>
+              <div class="grid__item">
+                <div class="grid__item-inner"
+                  style="background-image:url(https://cdn.pixabay.com/photo/2014/07/21/17/52/museum-398761_1280.jpg)">
+                </div>
+              </div>
+              <div class="grid__item">
+                <div class="grid__item-inner"
+                  style="background-image:url(https://cdn.pixabay.com/photo/2016/11/15/10/08/painting-1825822_1280.jpg)">
+                </div>
+              </div>
+              <div class="grid__item">
+                <div class="grid__item-inner"
+                  style="background-image:url(https://cdn.vdcm.co.kr/news/photo/202403/11500_33896_371.jpg)"></div>
+              </div>
+              <div class="grid__item">
+                <div class="grid__item-inner" style="background-image:url(img/44.jpg)"></div>
+              </div>
+              <div class="grid__item">
+                <div class="grid__item-inner"
+                  style="background-image:url(https://cdn.pixabay.com/photo/2016/11/15/10/08/painting-1825822_1280.jpg)">
+                </div>
+              </div>
+              <div class="grid__item">
+                <div class="grid__item-inner"
+                  style="background-image:url(https://i.postimg.cc/x8sV6M2h/306097846_392786893005788_1065876871316666649_n.jpg)">
+                </div>
+              </div>
+              <div class="grid__item">
+                <div class="grid__item-inner"
+                  style="background-image:url(https://cdn.pixabay.com/photo/2014/07/21/17/52/museum-398761_1280.jpg)">
+                </div>
+              </div>
+              <div class="grid__item">
+                <div class="grid__item-inner"
+                  style="background-image:url(https://www.galleryhyundai.com/public/2023/01/13/17/40/1/0a04a1ed-abdb-4772-a984-e0d4d9ce8d36.resize_large.JPG)">
+                </div>
+              </div>
+
+              <div class="grid__item">
+                <div class="grid__item-inner" style="background-image:url(https://i.postimg.cc/FsrvVxCT/1.jpg)"></div>
+              </div>
+              <div class="grid__item">
+                <div class="grid__item-inner"
+                  style="background-image:url(https://blog.kakaocdn.net/dn/bUxtHy/btrXo6vEh5O/HZlLf2NXwAAhyEiuLKxamk/img.jpg)">
+                </div>
+              </div>
+              <div class="grid__item">
+                <div class="grid__item-inner"
+                  style="background-image:url(https://previews.123rf.com/images/narinbg/narinbg2310/narinbg231000604/215432454-%EC%BA%94%EB%B2%84%EC%8A%A4-%ED%99%94%EB%A0%A4%ED%95%9C-%EA%BD%83-%EB%B0%B0%EA%B2%BD%EC%97%90-%EC%9C%A0%ED%99%94-%EA%BD%83.jpg)">
+                </div>
+              </div>
+              <div class="grid__item">
+                <div class="grid__item-inner"
+                  style="background-image:url(https://i.postimg.cc/jSXbBw9R/318475533_933555457608287_8846856192816240898_n.jpg)">
+                </div>
+              </div>
+              <div class="grid__item">
+                <div class="grid__item-inner" style="background-image:url(https://i.postimg.cc/bYH8n5gG/3.jpg)"></div>
+              </div>
+              <div class="grid__item">
+                <div class="grid__item-inner"
+                  style="background-image:url(https://img.freepik.com/premium-photo/flowerstheoilpaintingstyle_635702-1434.jpg)">
+                </div>
+              </div>
+              <div class="grid__item">
+                <div class="grid__item-inner"
+                  style="background-image:url(https://cdn.gpkorea.com/news/photo/202310/105823_227039_2431.jpg)">
+                </div>
+              </div>
+              <div class="grid__item">
+                <div class="grid__item-inner"
+                  style="background-image:url(https://seoartgallery.com/wp-content/uploads/2018/12/%EC%B9%B4%ED%8E%98-%EC%9D%B8%ED%85%8C%EB%A6%AC%EC%96%B4-%EC%9C%A0%ED%99%94-%EA%BD%83%EA%B7%B8%EB%A6%BC-5.jpg)">
+                </div>
+              </div>
+              <div class="grid__item">
+                <div class="grid__item-inner" style="background-image:url(https://i.postimg.cc/bYH8n5gG/3.jpg)"></div>
+              </div>
+              <div class="grid__item">
+                <div class="grid__item-inner"
+                  style="background-image:url(https://i.postimg.cc/Y9FkGQy8/TrakeXcel-Read-insights-and-tips-from-our-team.png)">
+                </div>
+              </div>
+              <div class="grid__item">
+                <div class="grid__item-inner" style="background-image:url(https://i.postimg.cc/tJ5jH1Jd/4.jpg)"></div>
+              </div>
+              <div class="grid__item">
+                <div class="grid__item-inner"
+                  style="background-image:url(https://i.postimg.cc/jSXbBw9R/318475533_933555457608287_8846856192816240898_n.jpg)">
+                </div>
+              </div>
+              <div class="grid__item">
+                <div class="grid__item-inner"
+                  style="background-image:url(https://cdn.gpkorea.com/news/photo/202310/105823_227039_2431.jpg)"></div>
+              </div>
+              <div class="grid__item">
+                <div class="grid__item-inner"
+                  style="background-image:url(https://i.postimg.cc/nzfC9VsT/65377df662e1494edd8d5e15_Captura_de_pantalla_2023-09-19_a_las_12.38_2.webp)">
+                </div>
+              </div>
+              <div class="grid__item">
+                <div class="grid__item-inner"
+                  style="background-image:url(https://cdn.pixabay.com/photo/2016/11/15/10/08/painting-1825822_1280.jpg)">
+                </div>
+              </div>
+              <div class="grid__item">
+                <div class="grid__item-inner"
+                  style="background-image:url(https://img.wkorea.com/w/2020/03/style_5e5cb00b641d0-539x700.jpg)">
+                </div>
+              </div>
+              <div class="grid__item">
+                <div class="grid__item-inner"
+                  style="background-image:url(https://i.postimg.cc/x8sV6M2h/306097846_392786893005788_1065876871316666649_n.jpg)">
+                </div>
+              </div>
+              <div class="grid__item">
+                <div class="grid__item-inner"
+                  style="background-image:url(https://www.dior.com/couture/var/dior/storage/images/pushs-editos/folder-fall-24-femme/folder-dioriviera/m0538ongem63r/43910286-1-eng-GB/m0538ongem63r_1440_1200.jpg?imwidth=640)">
+                </div>
+              </div>
+              <div class="grid__item">
+                <div class="grid__item-inner"
+                  style="background-image:url(https://www.dior.com/couture/var/dior/storage/images/pushs-editos/folder-fall-24-femme/folder-dioriviera/m1296ztdtm03i-1/43910312-1-eng-GB/m1296ztdtm03i-1_1440_1200.jpg?imwidth=640)">
+                </div>
+              </div>
+              <div class="grid__item">
+                <div class="grid__item-inner"
+                  style="background-image:url(https://img.vogue.co.kr/vogue/2022/05/style_6270955e59a3c-930x620.jpg)">
+                </div>
+              </div>
+              <div class="grid__item">
+                <div class="grid__item-inner"
+                  style="background-image:url(https://www.dior.com/couture/var/dior/storage/images/pushs-editos/folder-fall-24-femme/folder-dioriviera/m0538ongem63r/43910286-1-eng-GB/m0538ongem63r_1440_1200.jpg?imwidth=640)">
+                </div>
+              </div>
+              <div class="grid__item">
+                <div class="grid__item-inner"
+                  style="background-image:url(https://cdn.pixabay.com/photo/2024/05/18/15/41/teeth-8770514_1280.jpg)">
+                </div>
+              </div>
+              <div class="grid__item">
+                <div class="grid__item-inner"
+                  style="background-image:url(https://blog.kakaocdn.net/dn/bUxtHy/btrXo6vEh5O/HZlLf2NXwAAhyEiuLKxamk/img.jpg)">
+                </div>
+              </div>
+              <div class="grid__item">
+                <div class="grid__item-inner"
+                  style="background-image:url(https://i.postimg.cc/x8sV6M2h/306097846_392786893005788_1065876871316666649_n.jpg)">
+                </div>
+              </div>
+              <div class="grid__item">
+                <div class="grid__item-inner"
+                  style="background-image:url(https://cdn.pixabay.com/photo/2024/05/18/15/41/teeth-8770514_1280.jpg)">
+                </div>
+              </div>
+            </div>
+          </div>
+          <h3 class="content__title">Christian Dior is a French brand <br> fashion house founded in 1946.</h3>
+        </section>
+      </main>
+    </section>
+    <!-- end page11 -->
+
+    <div id="page12" class="page12">
+
+      <img src="img/궁전.png" alt="궁전">
+
+      <div class="breathe-animation">
+        <span>dIoR</span>
+      </div>
+    </div>
+    <!-- end page12 -->
+
+    <section id="page13">
+      <div class="shadow13">
+        <div class="box1">
+          <lottie-player src="img/로티1.json" class="lottie1" background="transparent" speed="1"
+            style="width: 150px; height: 150px" direction="1" mode="normal" loop autoplay></lottie-player>
+          <lottie-player src="img/로티2.json" background="transparent" speed="1" style="width: 200px; height: 200px"
+            direction="1" mode="normal" loop autoplay></lottie-player>
+          <lottie-player src="img/로티3.json" background="transparent" speed="1" style="width: 150px; height: 150px"
+            direction="1" playMode="normal" loop autoplay></lottie-player>
+        </div>
+        <div class="box2">
+          <ul>
+            <li>Christian Dior Couture Korea Co,Ltd.</li>
+            <li>04539 26th floor, 19 Euljiro 5-gil, Jung-gu</li>
+            <li> 02-3280-0104 (contactdiorkr@christiandior.com) </li>
+            <li>COPYRIGHT © CHRISTIAN DIOR COUTURE KOREA ALL. </li>
+          </ul>
+        </div>
+        <div class="serv__list">
+          <div class="serv__item">
+            <span class="serv__item-arrow" data-speed="500">
+              <img src="https://dmitrinaumov.github.io/Paralax-effect-with-gsap-scrolltrigger/img/arrow.svg" alt="">
+            </span>
+            <div class="serv__item-txt">
+              <span class="serv__item-text">/instagram</span>
+            </div>
+          </div>
+          <div class="serv__item">
+            <span class="serv__item-arrow" data-speed="400">
+              <img src="https://dmitrinaumov.github.io/Paralax-effect-with-gsap-scrolltrigger/img/arrow.svg" alt="">
+            </span>
+            <div class="serv__item-txt">
+              <span class="serv__item-text">/FaceBook</span>
+            </div>
+          </div>
+          <div class="serv__item">
+            <span class="serv__item-arrow" data-speed="800">
+              <img src="https://dmitrinaumov.github.io/Paralax-effect-with-gsap-scrolltrigger/img/arrow.svg" alt="">
+            </span>
+            <div class="serv__item-txt">
+              <span class="serv__item-text">/twitter</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- end page13 -->
+  </div>
+  <!-- end main -->
+
+
+
+
+
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.2/lottie.min.js"></script>
+  <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery.imagesloaded/5.0.0/imagesloaded.pkgd.min.js'></script>
+  <script src='https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.29/bundled/lenis.min.js'></script>
+  <script src='https://natsci.manoa.hawaii.edu/rw_common/plugins/stacks/gsap/SplitText.min.js'></script>
+
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/zepto/1.2.0/zepto.min.js"></script>
+  <script src="https://unpkg.com/gsap@3/dist/ScrollToPlugin.min.js"></script>
+  <script src="https://unpkg.com/splitting/dist/splitting.min.js"></script>
+  <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+  <script src="https://unpkg.com/lenis@1.0.45/dist/lenis.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/ScrollMagic/2.0.8/ScrollMagic.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.4/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.4/ScrollTrigger.min.js"></script>
+  <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jquery-scrolla@0.0.3/dist/js/jquery.scrolla.min.js"></script>
+  <script src="https://unpkg.co/gsap@3/dist/gsap.min.js"></script>
+  <script src="js/main.js"></script>
+</body>
+
+</html>
